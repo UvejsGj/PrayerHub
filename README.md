@@ -18,9 +18,12 @@ A modern, glassmorphism **Islamic prayer & worship dashboard** that runs in the 
 - **Adhkar & Du'as** — morning/evening/sleep/travel/after-prayer with tap-to-count and progress
 - **Light + dark mode**, fully **responsive / mobile-first**, accessible, with an **offline
   solar-calculation fallback** if the prayer-time API is unreachable
+- **Optional account + cloud sync** — sign in with email (top-right) to back up your data and sync
+  it across devices, powered by [Supabase](https://supabase.com)
 
-All your data (prayer logs, trackers, favorites) is stored **locally in your browser** — nothing is
-uploaded. Use **“Generate sample data”** on the Analytics screen to populate demo history.
+By default your data (prayer logs, trackers, favorites) is stored **locally in your browser**.
+**Sign in** to sync it to the cloud so it follows you across devices. Use **“Generate sample
+data”** on the Analytics screen to populate demo history.
 
 ## Run it
 
@@ -40,14 +43,14 @@ PrayerHub/
 ├─ prototype/
 │  ├─ index.html
 │  ├─ css/styles.css
-│  └─ js/{config,prayer-times,tracking,ui,qibla,ramadan,mosques,adhkar,app}.js
+│  └─ js/{config,prayer-times,tracking,ui,qibla,ramadan,mosques,adhkar,cloud,app}.js
 └─ dev-server.mjs        # zero-dependency static server
 ```
 
 ## Built with
 
 Vanilla **HTML / CSS / JavaScript** · [Chart.js](https://www.chartjs.org/) (analytics) ·
-[Leaflet](https://leafletjs.com/) (maps).
+[Leaflet](https://leafletjs.com/) (maps) · [Supabase](https://supabase.com) (auth + cloud sync).
 
 ## Credits
 

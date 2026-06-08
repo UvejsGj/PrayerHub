@@ -91,6 +91,7 @@
             <option value="1">Karachi</option>
             <option value="99">Custom (angles)</option>
           </select>
+          <div id="authArea" class="auth-area"></div>
           <button class="icon-btn" id="themeToggle" aria-label="Toggle light/dark theme">🌙</button>
         </div>
       </header>
@@ -323,12 +324,30 @@
     </main>
   </div>
 
+  <!-- Auth modal -->
+  <div class="auth-modal hidden" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in">
+    <div class="auth-modal__box glass">
+      <button class="auth-modal__close" id="authClose" aria-label="Close">×</button>
+      <h3>☁ Sync your worship data</h3>
+      <p class="muted">Sign in so your prayer logs, streaks, trackers and favorites follow you across devices.</p>
+      <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+      <input id="authPassword" type="password" autocomplete="current-password" placeholder="Password (min 6 characters)" />
+      <p class="auth-error" id="authError"></p>
+      <div class="auth-actions">
+        <button class="btn" id="authSignIn">Sign in</button>
+        <button class="btn btn--ghost" id="authSignUp">Create account</button>
+      </div>
+      <p class="muted auth-fineprint">New here? Enter an email + password and tap <b>Create account</b>.</p>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/prayer-times.js"></script>
   <script src="js/tracking.js"></script>
@@ -337,6 +356,7 @@
   <script src="js/ramadan.js"></script>
   <script src="js/mosques.js"></script>
   <script src="js/adhkar.js"></script>
+  <script src="js/cloud.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

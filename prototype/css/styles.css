@@ -472,3 +472,37 @@ a { color: var(--emerald-soft); }
   .ram-trackers { grid-template-columns: 1fr; }
   .adhkar-list { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   CLOUD SYNC — account area + sign-in modal
+   ============================================================ */
+.auth-area { display: flex; align-items: center; gap: 8px; }
+.auth-email { font-size: .8rem; color: var(--text-dim); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sync-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--text-dim); flex-shrink: 0; }
+.sync-dot[data-state="synced"] { background: var(--emerald); box-shadow: 0 0 0 3px rgba(16,185,129,.18); }
+.sync-dot[data-state="syncing"] { background: var(--gold); animation: syncpulse 1s var(--ease) infinite; }
+.sync-dot[data-state="error"] { background: #f87171; }
+@keyframes syncpulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+
+.auth-modal {
+  position: fixed; inset: 0; z-index: 60; padding: 20px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(2, 6, 18, .55); backdrop-filter: blur(5px);
+  animation: fadeUp .25s var(--ease);
+}
+.auth-modal__box { width: 390px; max-width: 100%; padding: 30px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+.auth-modal__box h3 { font-size: 1.2rem; }
+.auth-modal__close { position: absolute; top: 12px; right: 16px; background: none; border: 0; color: var(--text-dim); font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.auth-modal__close:hover { color: var(--text); }
+.auth-modal input {
+  background: var(--glass-soft); border: 1px solid var(--glass-brd); color: var(--text);
+  padding: 12px 14px; border-radius: 11px; font: inherit; outline: none; transition: border .2s;
+}
+.auth-modal input:focus { border-color: var(--emerald); }
+.auth-modal input::placeholder { color: var(--text-dim); }
+.auth-actions { display: flex; gap: 10px; margin-top: 4px; }
+.auth-actions .btn { flex: 1; padding: 12px; text-align: center; }
+.auth-error { color: #fca5a5; font-size: .82rem; min-height: 1.1em; }
+.auth-fineprint { font-size: .74rem; }
+
+@media (max-width: 560px) { .auth-email { display: none; } }

@@ -12,6 +12,7 @@
     calDate: new Date(),
     monthCache: {},
   };
+  let current = 'dashboard'; // active view (used by cloud rehydrate)
 
   function loadPrefs() {
     let p = {};
@@ -79,6 +80,7 @@
 
   /* ---------- view routing ---------- */
   function showView(name) {
+    current = name;
     document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
     const el = $('view-' + name);
     if (el) el.classList.remove('hidden');
@@ -221,11 +223,28 @@
     if (['dashboard','tracking','analytics','calendar','qibla','ramadan','mosques','adhkar'].includes(h)) showView(h);
   }
 
+  /* ---------- cloud rehydrate hook ---------- */
+  // Called by the sync layer after merging remote data into localStorage:
+  // re-read everything and refresh the whole UI without a page reload.
+  function rehydrate() {
+    PH.state.prefs = loadPrefs();
+    ui.setTheme(PH.state.prefs.theme);
+    $('methodSelect').value = PH.state.prefs.method;
+    $('cityInput').value = PH.state.prefs.city || '';
+    $('countryInput').value = PH.state.prefs.country || '';
+    PH.state.monthCache = {};
+    loadToday();
+    $('sidebarStreak').textContent = track.currentStreak();
+    showView(current);
+  }
+  PH.app = { rehydrate };
+
   /* ---------- init ---------- */
   function init() {
     ui.setTheme(PH.state.prefs.theme);
     bindEvents();
     loadToday();
+    if (PH.cloud) PH.cloud.init();
     // live clock + countdown (+ Ramadan Iftar countdown when visible)
     setInterval(() => {
       if (PH.state.today) ui.tickCountdown(PH.state.today.timings);
