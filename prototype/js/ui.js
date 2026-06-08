@@ -78,9 +78,12 @@ PH.ui = (function () {
   /* ---------- hero dates ---------- */
   function renderHeroDates(data) {
     const g = data.gregorian, h = data.hijri;
-    $('gregorianDate').textContent = `${g.weekday ? g.weekday.en + ', ' : ''}${g.day} ${g.month.en} ${g.year}`;
+    // Build a Date from the API's gregorian fields, then format in the active language.
+    const d = new Date(`${g.year}-${String(monthIndex(g.month.en) + 1).padStart(2, '0')}-${String(g.day).padStart(2, '0')}T12:00:00`);
+    const ok = !isNaN(d);
+    $('gregorianDate').textContent = ok ? PH.i18n.fmtDate(d, true) : `${g.day} ${g.month.en} ${g.year}`;
     $('hijriDate').textContent = `${h.day} ${h.month.en} ${h.year} AH`;
-    $('todayLabel').textContent = `${g.day} ${g.month.en} ${g.year}`;
+    $('todayLabel').textContent = ok ? PH.i18n.fmtDate(d, false) : `${g.day} ${g.month.en} ${g.year}`;
   }
 
   /* ---------- prayer grid ---------- */
@@ -100,7 +103,7 @@ PH.ui = (function () {
       card.style.animationDelay = (i * 60) + 'ms';
       card.innerHTML = `
         <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>
-        <span class="prayer-card__name">${p.label}<span class="ar">${p.ar}</span></span>
+        <span class="prayer-card__name">${PH.t('prayer.' + p.key)}<span class="ar">${p.ar}</span></span>
         <span class="prayer-card__time">${PH.fmtTime(timings[p.key])}</span>
         <span class="prayer-card__meta">${passed ? PH.t('card.passed') : (isNext ? PH.t('card.upcoming') : PH.t('card.today'))}</span>
         <button class="prayer-card__check ${logged && logged !== 'missed' ? 'done' : ''}" data-prayer="${p.key}">
@@ -123,7 +126,7 @@ PH.ui = (function () {
     const now = PH.wallNow(PH.state.today && PH.state.today.tz);
     $('liveClock').textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     const np = nextPrayer(timings, now);
-    $('nextPrayerName').textContent = np.label + (np.tomorrow ? ' ' + PH.t('common.tomorrow') : '');
+    $('nextPrayerName').textContent = PH.t('prayer.' + np.key) + (np.tomorrow ? ' ' + PH.t('common.tomorrow') : '');
     let diff = Math.max(0, np.at - now);
     const h = Math.floor(diff / 3.6e6), m = Math.floor((diff % 3.6e6) / 6e4), s = Math.floor((diff % 6e4) / 1e3);
     $('countdown').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
@@ -149,7 +152,7 @@ PH.ui = (function () {
       if (st) cell.dataset.status = st;
       cell.innerHTML = `
         <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>
-        <span class="track-cell__name">${p.label}</span>
+        <span class="track-cell__name">${PH.t('prayer.' + p.key)}</span>
         <span class="track-cell__time">${timings ? PH.fmtTime(timings[p.key]) : '—'}</span>
         <span class="track-cell__status">${st ? PH.t('st.' + st) : PH.t('st.none')}</span>`;
       cell.addEventListener('click', () => onCycle(key, p.key));
@@ -163,7 +166,7 @@ PH.ui = (function () {
     const isToday = key === PH.dateKey(now);
     const isYday = key === PH.dateKey(new Date(now.getTime() - 864e5));
     $('trackDateLabel').textContent = isToday ? PH.t('track.today') : isYday ? PH.t('track.yesterday')
-      : date.toLocaleDateString(PH.i18n.lang === 'sq' ? 'sq' : 'en', { weekday: 'short', day: 'numeric', month: 'short' });
+      : PH.i18n.fmtDate(date, false);
   }
 
   /* ---------- analytics view ---------- */
@@ -229,7 +232,7 @@ PH.ui = (function () {
 
   /* ---------- calendar view ---------- */
   function renderCalendar(monthData, calDate) {
-    $('calMonthLabel').textContent = calDate.toLocaleDateString('en', { month: 'long', year: 'numeric' });
+    $('calMonthLabel').textContent = PH.i18n.fmtMonth(calDate);
     const body = $('calBody');
     if (!monthData) { body.innerHTML = '<tr><td colspan="7" class="muted">Loading month…</td></tr>'; return; }
     const todayKey = PH.dateKey(new Date());

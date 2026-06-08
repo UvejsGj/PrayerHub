@@ -202,6 +202,7 @@
       // refresh JS-rendered content in the new language
       const p = PH.state.prefs;
       if (PH.state.today) {
+        ui.renderHeroDates(PH.state.today);
         ui.renderPrayerGrid(PH.state.today.timings, PH.wallNow(PH.state.today.tz), onDashboardToggle);
         ui.tickCountdown(PH.state.today.timings);
         ui.renderStatus(p.locationLabel, PH.state.today.source, Number(p.method) === 99 ? 'Fajr 18° · Isha 17°' : '');

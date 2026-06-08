@@ -19,6 +19,7 @@ PH.i18n = (function () {
       'dash.today': "Today's Prayers", 'dash.sunNight': 'Sun & Night',
       't.sunrise': 'Sunrise', 't.sunset': 'Sunset', 't.imsak': 'Imsak', 't.midnight': 'Midnight', 't.lastthird': 'Last third',
       'card.passed': 'passed', 'card.upcoming': 'upcoming', 'card.today': 'today', 'card.mark': 'mark prayed',
+      'prayer.Fajr': 'Fajr', 'prayer.Dhuhr': 'Dhuhr', 'prayer.Asr': 'Asr', 'prayer.Maghrib': 'Maghrib', 'prayer.Isha': 'Isha',
       'st.ontime': 'On time', 'st.jamaah': "Jama'ah", 'st.late': 'Late', 'st.qada': 'Qada', 'st.missed': 'Missed', 'st.none': 'not logged',
       'track.title': 'Prayer Tracking',
       'track.instr': "Tap a prayer to log it. On time → Late / Jama'ah → Qada → Missed → clear.",
@@ -75,6 +76,7 @@ PH.i18n = (function () {
       'dash.today': 'Namazet e Sotme', 'dash.sunNight': 'Dielli & Nata',
       't.sunrise': 'Lindja', 't.sunset': 'Perëndimi', 't.imsak': 'Imsaku', 't.midnight': 'Mesnata', 't.lastthird': 'Tretja e fundit',
       'card.passed': 'kaloi', 'card.upcoming': 'vjen', 'card.today': 'sot', 'card.mark': 'shëno si falur',
+      'prayer.Fajr': 'Sabahu', 'prayer.Dhuhr': 'Dreka', 'prayer.Asr': 'Ikindia', 'prayer.Maghrib': 'Akshami', 'prayer.Isha': 'Jacia',
       'st.ontime': 'Në kohë', 'st.jamaah': 'Me xhemat', 'st.late': 'Vonë', 'st.qada': 'Kaza', 'st.missed': 'Humbur', 'st.none': 'pa regjistruar',
       'track.title': 'Gjurmimi i Namazit',
       'track.instr': 'Prek një namaz për ta regjistruar. Në kohë → Vonë / Me xhemat → Kaza → Humbur → pastro.',
@@ -121,7 +123,28 @@ PH.i18n = (function () {
 
   let lang = 'en';
 
+  // Many browsers lack the Albanian Intl locale, so format dates manually for SQ.
+  const SQ_MONTHS = ['janar', 'shkurt', 'mars', 'prill', 'maj', 'qershor', 'korrik', 'gusht', 'shtator', 'tetor', 'nëntor', 'dhjetor'];
+  const SQ_DAYS = ['e diel', 'e hënë', 'e martë', 'e mërkurë', 'e enjte', 'e premte', 'e shtunë'];
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
   function t(key) { return (dict[lang] && dict[lang][key]) || dict.en[key] || key; }
+
+  // Full date, optionally with weekday (e.g. "E hënë, 8 qershor 2026").
+  function fmtDate(d, withWeekday) {
+    if (lang === 'sq') {
+      const body = `${d.getDate()} ${SQ_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+      return withWeekday ? `${cap(SQ_DAYS[d.getDay()])}, ${body}` : body;
+    }
+    return d.toLocaleDateString('en-GB', withWeekday
+      ? { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }
+      : { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+  // Month + year (e.g. "qershor 2026").
+  function fmtMonth(d) {
+    return lang === 'sq' ? `${cap(SQ_MONTHS[d.getMonth()])} ${d.getFullYear()}`
+      : d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  }
 
   function apply() {
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
@@ -132,6 +155,6 @@ PH.i18n = (function () {
 
   function setLang(l) { lang = dict[l] ? l : 'en'; apply(); }
 
-  return { t, apply, setLang, get lang() { return lang; }, available: ['en', 'sq'] };
+  return { t, apply, setLang, fmtDate, fmtMonth, get lang() { return lang; }, available: ['en', 'sq'] };
 })();
 PH.t = k => PH.i18n.t(k);
