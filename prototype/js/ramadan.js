@@ -46,19 +46,19 @@ PH.ramadan = (function () {
 
     // ----- countdown card -----
     if (inRamadan) {
-      $('ramTitle').textContent = `Ramadan ${hy} · Day ${h.day}`;
-      $('ramCountLabel').textContent = 'Days remaining';
+      $('ramTitle').textContent = `${PH.t('nav.ramadan')} ${hy} · ${PH.t('ram.day')} ${h.day}`;
+      $('ramCountLabel').textContent = PH.t('ram.remaining');
       $('ramCountValue').textContent = Math.max(0, 30 - h.day);
     } else {
       const start = findNext(9, today);
-      $('ramTitle').textContent = `Ramadan ${hy}`;
-      $('ramCountLabel').textContent = 'Begins in';
-      $('ramCountValue').textContent = start ? daysBetween(start, today) + ' days' : '—';
+      $('ramTitle').textContent = `${PH.t('nav.ramadan')} ${hy}`;
+      $('ramCountLabel').textContent = PH.t('ram.beginsIn');
+      $('ramCountValue').textContent = start ? daysBetween(start, today) + ' ' + PH.t('common.days') : '—';
     }
 
     // ----- Eid al-Fitr (1 Shawwal) -----
     const eid = findNext(10, today);
-    $('ramEidValue').textContent = eid ? daysBetween(eid, today) + ' days' : '—';
+    $('ramEidValue').textContent = eid ? daysBetween(eid, today) + ' ' + PH.t('common.days') : '—';
 
     // ----- timetable from today's timings -----
     const t = PH.state.today && PH.state.today.timings;
@@ -91,8 +91,8 @@ PH.ramadan = (function () {
     const now = PH.wallNow(data.tz);
     const [h, m] = PH.fmtTime(data.timings.Maghrib).split(':').map(Number);
     let iftar = new Date(now); iftar.setHours(h, m, 0, 0);
-    let label = 'Iftar in';
-    if (iftar <= now) { iftar.setDate(iftar.getDate() + 1); label = 'Iftar tomorrow in'; }
+    let label = PH.t('ram.iftarIn');
+    if (iftar <= now) { iftar.setDate(iftar.getDate() + 1); label = PH.t('ram.iftarTomorrow'); }
     const diff = iftar - now;
     const hh = Math.floor(diff / 3.6e6), mm = Math.floor((diff % 3.6e6) / 6e4), ss = Math.floor((diff % 6e4) / 1e3);
     const el = $('ramIftarCountdown'); if (!el) return;

@@ -18,7 +18,7 @@
     let p = {};
     try { p = JSON.parse(localStorage.getItem(PH.config.prefsKey)) || {}; } catch (e) {}
     // Default to Mecca (with coords) so live + offline both work on first load.
-    return Object.assign({ method: 3, theme: 'dark', city: '', country: '', lat: 21.4225, lng: 39.8262, locationLabel: 'Mecca, Saudi Arabia' }, p);
+    return Object.assign({ method: 3, theme: 'dark', lang: 'en', city: '', country: '', lat: 21.4225, lng: 39.8262, locationLabel: 'Mecca, Saudi Arabia' }, p);
   }
   function savePrefs() { localStorage.setItem(PH.config.prefsKey, JSON.stringify(PH.state.prefs)); }
 
@@ -183,11 +183,30 @@
       if (!$('view-calendar').classList.contains('hidden')) loadMonth();
     });
 
-    // theme
-    $('themeToggle').addEventListener('click', () => {
+    // theme (animated circular reveal from the toggle)
+    $('themeToggle').addEventListener('click', (e) => {
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      PH.state.prefs.theme = next; savePrefs(); ui.setTheme(next);
-      if (!$('view-analytics').classList.contains('hidden')) ui.renderAnalytics();
+      PH.state.prefs.theme = next; savePrefs();
+      ui.animateTheme(() => {
+        ui.setTheme(next);
+        if (!$('view-analytics').classList.contains('hidden')) ui.renderAnalytics();
+      }, e);
+    });
+
+    // language toggle (EN ⇄ SQ)
+    $('langToggle').addEventListener('click', () => {
+      const next = PH.i18n.lang === 'en' ? 'sq' : 'en';
+      PH.state.prefs.lang = next; savePrefs();
+      PH.i18n.setLang(next);
+      $('langLabel').textContent = next.toUpperCase();
+      // refresh JS-rendered content in the new language
+      const p = PH.state.prefs;
+      if (PH.state.today) {
+        ui.renderPrayerGrid(PH.state.today.timings, PH.wallNow(PH.state.today.tz), onDashboardToggle);
+        ui.tickCountdown(PH.state.today.timings);
+        ui.renderStatus(p.locationLabel, PH.state.today.source, Number(p.method) === 99 ? 'Fajr 18° · Isha 17°' : '');
+      }
+      showView(current);
     });
 
     // mobile menu
@@ -252,6 +271,8 @@
   /* ---------- init ---------- */
   function init() {
     ui.setTheme(PH.state.prefs.theme);
+    PH.i18n.setLang(PH.state.prefs.lang);
+    $('langLabel').textContent = PH.i18n.lang.toUpperCase();
     bindEvents();
     loadToday();
     if (PH.cloud) PH.cloud.init();

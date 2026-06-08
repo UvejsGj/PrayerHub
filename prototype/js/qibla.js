@@ -30,16 +30,16 @@ PH.qibla = (function () {
     $('qiblaLoc').textContent = p.locationLabel || '';
     if (p.lat == null) {
       $('qiblaBearing').textContent = '—';
-      $('qiblaHint').textContent = 'Enable “Auto” location or search a city to compute the Qibla.';
+      $('qiblaHint').textContent = PH.t('qibla.hintNoLoc');
       return;
     }
     const b = bearingTo(p.lat, p.lng), d = distanceTo(p.lat, p.lng);
     lastBearing = b;
     if (d < 3) { // standing at the Sacred Mosque — bearing is undefined
       $('qiblaBearing').innerHTML = '<span class="material-symbols-outlined" style="font-size:1.6rem">mosque</span>';
-      $('qiblaDir').textContent = 'At the Kaaba';
+      $('qiblaDir').textContent = PH.t('qibla.atKaaba');
       $('qiblaDist').textContent = Math.round(d * 1000) + ' m';
-      $('qiblaHint').textContent = "You're at the Sacred Mosque — face the Kaaba directly.";
+      $('qiblaHint').textContent = PH.t('qibla.atKaabaHint');
       $('qiblaNeedle').style.transform = 'translateX(-50%) rotate(0deg)';
       initMap(p);
       return;
@@ -48,9 +48,7 @@ PH.qibla = (function () {
     $('qiblaDir').textContent = dirLabel(b);
     $('qiblaDist').textContent = Math.round(d).toLocaleString() + ' km';
     $('qiblaNeedle').style.transform = `translateX(-50%) rotate(${b}deg)`;
-    $('qiblaHint').textContent = listening
-      ? 'Live compass on — turn until the Kaaba aligns with the top marker ▲.'
-      : 'North-up view. On mobile, tap “Enable live compass” and turn your device.';
+    $('qiblaHint').textContent = listening ? PH.t('qibla.hintLive') : PH.t('qibla.hintStatic');
     initMap(p);
   }
 

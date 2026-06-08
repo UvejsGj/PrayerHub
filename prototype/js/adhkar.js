@@ -75,14 +75,14 @@ PH.adhkar = (function () {
     if (cat) activeCat = cat;
     // tabs
     $('adhkarTabs').innerHTML = CATEGORIES.map(c =>
-      `<button class="adhkar-tab ${c.id === activeCat ? 'is-active' : ''}" data-cat="${c.id}"><span class="material-symbols-outlined">${c.ico}</span> ${c.label}</button>`).join('');
+      `<button class="adhkar-tab ${c.id === activeCat ? 'is-active' : ''}" data-cat="${c.id}"><span class="material-symbols-outlined">${c.ico}</span> ${PH.t('adh.' + (c.id === 'after_prayer' ? 'after' : c.id))}</button>`).join('');
     $('adhkarTabs').querySelectorAll('.adhkar-tab').forEach(b =>
       b.addEventListener('click', () => render(b.dataset.cat)));
 
     const list = DATA[activeCat];
     const cnt = counts(), favs = loadFavs();
     const done = list.filter(x => (cnt[x.id] || 0) >= x.repeat).length;
-    $('adhkarProgress').textContent = `${done} / ${list.length} completed today`;
+    $('adhkarProgress').textContent = `${done} / ${list.length} ${PH.t('adh.progress')}`;
 
     $('adhkarList').innerHTML = list.map(d => {
       const c = cnt[d.id] || 0, complete = c >= d.repeat, fav = favs.includes(d.id);
@@ -95,7 +95,7 @@ PH.adhkar = (function () {
         <p class="adhkar-en">${esc(d.en)}</p>
         <div class="adhkar-card__foot">
           <span class="adhkar-ref">${esc(d.ref)}</span>
-          <span class="adhkar-tap">${complete ? '✓ done — tap to repeat' : 'tap to count'}</span>
+          <span class="adhkar-tap">${complete ? '✓ ' + PH.t('adh.done') : PH.t('adh.tap')}</span>
         </div>
       </div>`;
     }).join('');

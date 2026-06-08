@@ -36,7 +36,7 @@ PH.family = (function () {
   function save(f) { localStorage.setItem(KEY, JSON.stringify(f)); }
 
   const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-  const roleLabel = r => ({ leader: 'Leader', child: 'Child', member: 'Member' }[r] || 'Member');
+  const roleLabel = r => PH.t('role.' + r);
 
   function youWeekly() {
     try { return PH.track.dailySeries(7).values.reduce((a, b) => a + b, 0); } catch (e) { return 0; }
@@ -58,7 +58,7 @@ PH.family = (function () {
     const goal = fam.members.length * GOAL_PER_MEMBER;
     $('famGoalText').textContent = `${total} / ${goal}`;
     $('famGoalBar').style.width = Math.min(100, (total / goal) * 100) + '%';
-    $('famGoalSub').textContent = `${Math.round((total / goal) * 100)}% of this week's family goal`;
+    $('famGoalSub').textContent = `${Math.round((total / goal) * 100)}% ${PH.t('fam.ofGoal')}`;
 
     const ranked = [...fam.members].sort((a, b) => (b.weekly || 0) - (a.weekly || 0));
     $('famBoard').innerHTML = ranked.map((m, i) => {
@@ -68,7 +68,7 @@ PH.family = (function () {
         ${rank}
         <span class="fam-avatar" style="background:${m.color}">${esc(m.name[0])}</span>
         <div class="fam-row__main">
-          <strong>${esc(m.name)}${m.you ? ' <span class="muted">(you)</span>' : ''}</strong>
+          <strong>${esc(m.name)}${m.you ? ` <span class="muted">(${PH.t('fam.you')})</span>` : ''}</strong>
           <span class="fam-badge fam-badge--${m.role}">${roleLabel(m.role)}</span>
         </div>
         <div class="fam-row__bar"><span style="width:${pct}%;background:${m.color}"></span></div>

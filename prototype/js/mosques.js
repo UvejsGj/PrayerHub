@@ -96,7 +96,7 @@ PH.mosques = (function () {
       <div class="mosque-row__actions">
         <button class="icon-btn mosque-fav ${fav ? 'is-fav' : ''}" title="Favorite" data-id="${m.id}"><span class="material-symbols-outlined">${fav ? 'favorite' : 'favorite_border'}</span></button>
         <a class="btn btn--ghost" target="_blank" rel="noopener"
-           href="https://www.openstreetmap.org/directions?to=${m.lat}%2C${m.lng}">Directions ↗</a>
+           href="https://www.openstreetmap.org/directions?to=${m.lat}%2C${m.lng}">${PH.t('mosq.directions')}</a>
       </div>
     </div>`;
   }
@@ -108,8 +108,8 @@ PH.mosques = (function () {
 
   function renderList(list) {
     const el = $('mosqueList');
-    if (!list.length) { el.innerHTML = '<p class="muted">No mosques found within 6 km. Try the city search for a denser area.</p>'; return; }
-    el.innerHTML = `<p class="muted">${list.length} mosque(s) within 6 km</p>` + list.map(rowHtml).join('');
+    if (!list.length) { el.innerHTML = `<p class="muted">${PH.t('mosq.none')}</p>`; return; }
+    el.innerHTML = `<p class="muted">${list.length} ${PH.t('mosq.within')}</p>` + list.map(rowHtml).join('');
     el.querySelectorAll('.mosque-fav').forEach(b => b.addEventListener('click', () => {
       const m = lastResults.find(x => x.id === b.dataset.id);
       const nowFav = toggleFav(m);
@@ -122,11 +122,11 @@ PH.mosques = (function () {
   function renderFavs() {
     const favs = loadFavs();
     const el = $('mosqueFavs');
-    if (!favs.length) { el.innerHTML = '<p class="muted">No favorite mosques yet — tap the heart on any result.</p>'; return; }
+    if (!favs.length) { el.innerHTML = `<p class="muted">${PH.t('mosq.noFavs')}</p>`; return; }
     el.innerHTML = favs.map(m => `<div class="mosque-row glass-soft">
       <div class="mosque-row__main"><strong>★ ${esc(m.name)}</strong></div>
       <div class="mosque-row__actions">
-        <a class="btn btn--ghost" target="_blank" rel="noopener" href="https://www.openstreetmap.org/directions?to=${m.lat}%2C${m.lng}">Directions ↗</a>
+        <a class="btn btn--ghost" target="_blank" rel="noopener" href="https://www.openstreetmap.org/directions?to=${m.lat}%2C${m.lng}">${PH.t('mosq.directions')}</a>
       </div></div>`).join('');
   }
 
@@ -135,11 +135,11 @@ PH.mosques = (function () {
     $('mosqueLoc').textContent = p.locationLabel || '';
     renderFavs();
     if (p.lat == null) {
-      $('mosqueList').innerHTML = '<p class="muted">Enable “Auto” location or search a city to find nearby mosques.</p>';
+      $('mosqueList').innerHTML = `<p class="muted">${PH.t('mosq.noLoc')}</p>`;
       return;
     }
     initMap(p);
-    $('mosqueList').innerHTML = '<p class="muted">Searching OpenStreetMap for nearby mosques…</p>';
+    $('mosqueList').innerHTML = `<p class="muted">${PH.t('mosq.searching')}</p>`;
     try {
       const raw = await fetchNearby(p.lat, p.lng);
       lastResults = raw.map(m => ({ ...m, dist: distance(p.lat, p.lng, m.lat, m.lng) }))
@@ -148,8 +148,8 @@ PH.mosques = (function () {
       addMarkers(lastResults, p.lat, p.lng);
     } catch (e) {
       $('mosqueList').innerHTML =
-        `<p class="muted">Couldn't reach the OpenStreetMap data service (it can be busy). </p>
-         <button class="btn" id="mosqueRetry">↻ Try again</button>`;
+        `<p class="muted">${PH.t('mosq.error')}</p>
+         <button class="btn" id="mosqueRetry">↻ ${PH.t('mosq.retry')}</button>`;
       const rb = $('mosqueRetry'); if (rb) rb.addEventListener('click', render);
     }
   }

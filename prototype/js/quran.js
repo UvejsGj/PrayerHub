@@ -87,6 +87,9 @@ PH.quran = (function () {
     bound = true;
     const p = prog();
     current = p.lastSurah || 1;
+    // default translation matches the app language on first open
+    if (PH.i18n && PH.i18n.lang === 'sq') edition = 'sq.ahmeti';
+    $('quranEdition').value = edition;
     try {
       const list = await loadList();
       $('quranSurah').innerHTML = list.map(s =>
@@ -102,7 +105,7 @@ PH.quran = (function () {
 
   async function show(n) {
     const wrap = $('quranAyat');
-    wrap.innerHTML = '<p class="muted">Loading surah…</p>';
+    wrap.innerHTML = `<p class="muted">${PH.t('quran.loading')}</p>`;
     $('quranSurah').value = n;
     try {
       const { meta, ayat } = await loadSurah(n);
@@ -131,7 +134,7 @@ PH.quran = (function () {
       markRead(`${n}:1`); // opening a surah counts the first ayah as reached
       updateStats();
     } catch (e) {
-      wrap.innerHTML = `<p class="muted">Couldn't load this surah (network). </p><button class="btn" id="quranRetry">↻ Retry</button>`;
+      wrap.innerHTML = `<p class="muted">${PH.t('quran.error')}</p><button class="btn" id="quranRetry">↻ ${PH.t('mosq.retry')}</button>`;
       const rb = $('quranRetry'); if (rb) rb.addEventListener('click', () => show(n));
     }
   }

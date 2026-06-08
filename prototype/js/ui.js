@@ -23,6 +23,24 @@ PH.ui = (function () {
     document.querySelector('meta[name=theme-color]').setAttribute('content', theme === 'dark' ? '#070b16' : '#eaf1fb');
   }
 
+  // Eye-catching circular reveal from the toggle button (View Transitions API),
+  // plus a quick pop/rotate of the icon. Falls back to instant apply.
+  function animateTheme(apply, e) {
+    const btn = $('themeToggle');
+    if (btn) { btn.classList.remove('popping'); void btn.offsetWidth; btn.classList.add('popping'); }
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!document.startViewTransition || reduce) { apply(); return; }
+    const x = e && e.clientX ? e.clientX : window.innerWidth - 40;
+    const y = e && e.clientY ? e.clientY : 64;
+    const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(apply).ready.then(() => {
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] },
+        { duration: 600, easing: 'cubic-bezier(.4,0,.2,1)', pseudoElement: '::view-transition-new(root)' }
+      );
+    });
+  }
+
   /* ---------- time parsing ---------- */
   // "HH:MM" -> Date on the given base day
   function toDate(hhmm, base = new Date()) {
@@ -50,8 +68,8 @@ PH.ui = (function () {
   function renderStatus(label, source, customLabel) {
     $('locationLabel').textContent = label;
     const ds = $('dataSource');
-    if (source === 'live') { ds.textContent = '● Live · AlAdhan'; ds.className = 'chip chip--live'; }
-    else { ds.textContent = '◐ Offline estimate'; ds.className = 'chip chip--fallback'; }
+    if (source === 'live') { ds.textContent = '● ' + PH.t('status.live'); ds.className = 'chip chip--live'; }
+    else { ds.textContent = '◐ ' + PH.t('status.offline'); ds.className = 'chip chip--fallback'; }
     const cc = $('customCfg');
     if (customLabel) { cc.textContent = customLabel; cc.classList.remove('hidden'); }
     else cc.classList.add('hidden');
@@ -84,9 +102,9 @@ PH.ui = (function () {
         <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>
         <span class="prayer-card__name">${p.label}<span class="ar">${p.ar}</span></span>
         <span class="prayer-card__time">${PH.fmtTime(timings[p.key])}</span>
-        <span class="prayer-card__meta">${passed ? 'passed' : (isNext ? 'upcoming' : 'today')}</span>
+        <span class="prayer-card__meta">${passed ? PH.t('card.passed') : (isNext ? PH.t('card.upcoming') : PH.t('card.today'))}</span>
         <button class="prayer-card__check ${logged && logged !== 'missed' ? 'done' : ''}" data-prayer="${p.key}">
-          ${logged ? (PH.config.statusMeta[logged] ? PH.config.statusMeta[logged].label : 'logged') : '○ mark prayed'}
+          ${logged ? (PH.config.statusMeta[logged] ? PH.t('st.' + logged) : '') : '○ ' + PH.t('card.mark')}
         </button>`;
       card.querySelector('.prayer-card__check').addEventListener('click', () => onToggle(p.key));
       grid.appendChild(card);
@@ -105,7 +123,7 @@ PH.ui = (function () {
     const now = PH.wallNow(PH.state.today && PH.state.today.tz);
     $('liveClock').textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     const np = nextPrayer(timings, now);
-    $('nextPrayerName').textContent = np.label + (np.tomorrow ? ' (tomorrow)' : '');
+    $('nextPrayerName').textContent = np.label + (np.tomorrow ? ' ' + PH.t('common.tomorrow') : '');
     let diff = Math.max(0, np.at - now);
     const h = Math.floor(diff / 3.6e6), m = Math.floor((diff % 3.6e6) / 6e4), s = Math.floor((diff % 6e4) / 1e3);
     $('countdown').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
@@ -133,7 +151,7 @@ PH.ui = (function () {
         <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>
         <span class="track-cell__name">${p.label}</span>
         <span class="track-cell__time">${timings ? PH.fmtTime(timings[p.key]) : '—'}</span>
-        <span class="track-cell__status">${meta ? meta.label : 'not logged'}</span>`;
+        <span class="track-cell__status">${st ? PH.t('st.' + st) : PH.t('st.none')}</span>`;
       cell.addEventListener('click', () => onCycle(key, p.key));
       grid.appendChild(cell);
     });
@@ -144,8 +162,8 @@ PH.ui = (function () {
     const now = new Date();
     const isToday = key === PH.dateKey(now);
     const isYday = key === PH.dateKey(new Date(now.getTime() - 864e5));
-    $('trackDateLabel').textContent = isToday ? 'Today' : isYday ? 'Yesterday'
-      : date.toLocaleDateString('en', { weekday: 'short', day: 'numeric', month: 'short' });
+    $('trackDateLabel').textContent = isToday ? PH.t('track.today') : isYday ? PH.t('track.yesterday')
+      : date.toLocaleDateString(PH.i18n.lang === 'sq' ? 'sq' : 'en', { weekday: 'short', day: 'numeric', month: 'short' });
   }
 
   /* ---------- analytics view ---------- */
@@ -181,9 +199,10 @@ PH.ui = (function () {
     // status breakdown bars
     const bd = PH.track.statusBreakdown(30);
     const total = Object.values(bd).reduce((a, b) => a + b, 0) || 1;
-    const order = [['ontime','On time'],['jamaah',"Jama'ah"],['late','Late'],['qada','Qada'],['missed','Missed'],['none','Not logged']];
+    const order = ['ontime', 'jamaah', 'late', 'qada', 'missed', 'none'];
     const colors = { ontime:'#34d399', jamaah:'#10b981', late:'#f5c451', qada:'#a5b4fc', missed:'#f87171', none:'rgba(148,163,184,.4)' };
-    $('statusBreakdown').innerHTML = order.map(([k, label]) => {
+    $('statusBreakdown').innerHTML = order.map(k => {
+      const label = k === 'none' ? PH.t('bd.none') : PH.t('st.' + k);
       const pct = Math.round((bd[k] / total) * 100);
       return `<div class="breakdown__row"><span>${label}</span>
         <span class="breakdown__bar"><span style="width:${pct}%;background:${colors[k]}"></span></span>
@@ -228,5 +247,5 @@ PH.ui = (function () {
     return ['January','February','March','April','May','June','July','August','September','October','November','December'].indexOf(name);
   }
 
-  return { toast, setTheme, renderStatus, renderHeroDates, renderPrayerGrid, tickCountdown, renderTracking, renderAnalytics, renderCalendar, nextPrayer };
+  return { toast, setTheme, animateTheme, renderStatus, renderHeroDates, renderPrayerGrid, tickCountdown, renderTracking, renderAnalytics, renderCalendar, nextPrayer };
 })();

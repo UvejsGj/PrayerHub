@@ -110,10 +110,10 @@ PH.cloud = (function () {
       const email = session.user.email || 'account';
       area.innerHTML = `<span class="sync-dot" id="syncDot" data-state="synced" title="Synced"></span>
         <span class="auth-email" title="${email}">${email}</span>
-        <button class="btn btn--ghost" id="signOutBtn">Sign out</button>`;
+        <button class="btn btn--ghost" id="signOutBtn">${PH.t('auth.signOut')}</button>`;
       $('signOutBtn').addEventListener('click', signOut);
     } else {
-      area.innerHTML = `<button class="btn btn--ghost btn--ico" id="signInOpen"><span class="material-symbols-outlined">cloud</span> Sign in</button>`;
+      area.innerHTML = `<button class="btn btn--ghost btn--ico" id="signInOpen"><span class="material-symbols-outlined">cloud</span> ${PH.t('auth.signIn')}</button>`;
       $('signInOpen').addEventListener('click', openModal);
     }
   }
