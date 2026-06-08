@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PrayerHub — modern Islamic prayer & worship dashboard. Prayer times, countdown, tracking and analytics." />
+  <meta name="theme-color" content="#0f172a" />
+  <title>PrayerHub — Prayer & Worship Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Decorative animated background layers -->
+  <div class="bg-aurora" aria-hidden="true">
+    <span class="orb orb--1"></span>
+    <span class="orb orb--2"></span>
+    <span class="orb orb--3"></span>
+    <div class="bg-pattern"></div>
+  </div>
+
+  <div class="app-shell">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar glass" aria-label="Primary navigation">
+      <div class="brand">
+        <div class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="34" height="34" fill="none">
+            <path d="M24 3l4.7 9.5 10.5 1.5-7.6 7.4 1.8 10.5L24 27.5l-9.4 4.9 1.8-10.5-7.6-7.4 10.5-1.5L24 3z" fill="url(#g1)"/>
+            <circle cx="24" cy="38" r="7" stroke="url(#g1)" stroke-width="2.5"/>
+            <path d="M27 38a4 4 0 11-3-3.9" stroke="url(#g1)" stroke-width="2.5" stroke-linecap="round"/>
+            <defs><linearGradient id="g1" x1="6" y1="3" x2="42" y2="45" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/></linearGradient></defs>
+          </svg>
+        </div>
+        <div class="brand__text">
+          <strong>PrayerHub</strong>
+          <span>Worship Dashboard</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav__item is-active" data-view="dashboard" href="#dashboard"><span class="nav__ico">🕌</span> Dashboard</a>
+        <a class="nav__item" data-view="tracking" href="#tracking"><span class="nav__ico">✅</span> Prayer Tracking</a>
+        <a class="nav__item" data-view="analytics" href="#analytics"><span class="nav__ico">📊</span> Analytics</a>
+        <a class="nav__item" data-view="calendar" href="#calendar"><span class="nav__ico">🗓️</span> Monthly Calendar</a>
+        <a class="nav__item" data-view="qibla" href="#qibla"><span class="nav__ico">🧭</span> Qibla</a>
+        <a class="nav__item" data-view="ramadan" href="#ramadan"><span class="nav__ico">🌙</span> Ramadan</a>
+        <a class="nav__item" data-view="mosques" href="#mosques"><span class="nav__ico">🕌</span> Mosque Finder</a>
+        <a class="nav__item" data-view="adhkar" href="#adhkar"><span class="nav__ico">📿</span> Adhkar &amp; Du'as</a>
+        <a class="nav__item nav__item--soon" href="#" title="In the full blueprint"><span class="nav__ico">👪</span> Family <em>soon</em></a>
+        <a class="nav__item nav__item--soon" href="#" title="In the full blueprint"><span class="nav__ico">📖</span> Quran <em>soon</em></a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="streak-badge glass-soft" title="Current daily streak">
+          <span class="streak-badge__flame">🔥</span>
+          <div>
+            <strong id="sidebarStreak">0</strong>
+            <span>day streak</span>
+          </div>
+        </div>
+        <p class="sidebar__note">Prototype · core slice of the<br/>PrayerHub blueprint</p>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <!-- Top bar -->
+      <header class="topbar glass">
+        <div class="topbar__left">
+          <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+          <div class="loc-picker">
+            <span class="loc-picker__pin" aria-hidden="true">📍</span>
+            <form id="cityForm" class="loc-picker__form" autocomplete="off">
+              <input id="cityInput" type="text" placeholder="Search city…" aria-label="City" />
+              <input id="countryInput" type="text" placeholder="Country" aria-label="Country" />
+              <button class="btn btn--ghost" type="submit">Search</button>
+            </form>
+            <button class="btn btn--ghost" id="geoBtn" title="Detect my location">⌖ Auto</button>
+          </div>
+        </div>
+        <div class="topbar__right">
+          <select id="methodSelect" class="select" aria-label="Calculation method">
+            <option value="3">Muslim World League</option>
+            <option value="4">Umm Al-Qura (Makkah)</option>
+            <option value="2">ISNA (North America)</option>
+            <option value="5">Egyptian General Authority</option>
+            <option value="1">Karachi</option>
+            <option value="99">Custom (angles)</option>
+          </select>
+          <button class="icon-btn" id="themeToggle" aria-label="Toggle light/dark theme">🌙</button>
+        </div>
+      </header>
+
+      <!-- Status / location label -->
+      <div class="status-line">
+        <span id="locationLabel" class="status-line__loc">Locating…</span>
+        <span id="dataSource" class="chip chip--muted">connecting…</span>
+        <span id="customCfg" class="chip chip--muted hidden">Fajr 18° · Isha 17°</span>
+      </div>
+
+      <!-- ====== VIEW: DASHBOARD ====== -->
+      <section class="view" id="view-dashboard">
+        <!-- Hero: clock + next prayer countdown -->
+        <div class="hero glass">
+          <div class="hero__clock">
+            <div class="hero__time" id="liveClock">--:--</div>
+            <div class="hero__dates">
+              <span id="gregorianDate">—</span>
+              <span class="dot">•</span>
+              <span id="hijriDate" class="hijri">—</span>
+            </div>
+          </div>
+          <div class="hero__next">
+            <span class="hero__next-label">Next prayer</span>
+            <strong class="hero__next-name" id="nextPrayerName">—</strong>
+            <div class="hero__countdown" id="countdown" role="timer" aria-live="polite">--:--:--</div>
+            <div class="hero__progress"><span id="prayerProgress"></span></div>
+          </div>
+        </div>
+
+        <!-- Prayer times grid -->
+        <div class="section-head">
+          <h2>Today's Prayers</h2>
+          <span class="muted" id="todayLabel"></span>
+        </div>
+        <div class="prayer-grid" id="prayerGrid" aria-live="polite">
+          <!-- cards injected -->
+          <div class="skeleton-card glass"></div>
+          <div class="skeleton-card glass"></div>
+          <div class="skeleton-card glass"></div>
+          <div class="skeleton-card glass"></div>
+          <div class="skeleton-card glass"></div>
+        </div>
+
+        <!-- Secondary times -->
+        <div class="section-head"><h2>Sun &amp; Night</h2></div>
+        <div class="info-grid" id="infoGrid">
+          <div class="info-card glass"><span class="info-card__ico">🌅</span><div><span>Sunrise</span><strong id="t-sunrise">—</strong></div></div>
+          <div class="info-card glass"><span class="info-card__ico">🌇</span><div><span>Sunset</span><strong id="t-sunset">—</strong></div></div>
+          <div class="info-card glass"><span class="info-card__ico">🌙</span><div><span>Imsak</span><strong id="t-imsak">—</strong></div></div>
+          <div class="info-card glass"><span class="info-card__ico">🌌</span><div><span>Midnight</span><strong id="t-midnight">—</strong></div></div>
+          <div class="info-card glass"><span class="info-card__ico">✨</span><div><span>Last third</span><strong id="t-lastthird">—</strong></div></div>
+        </div>
+      </section>
+
+      <!-- ====== VIEW: TRACKING ====== -->
+      <section class="view hidden" id="view-tracking">
+        <div class="section-head">
+          <h2>Prayer Tracking</h2>
+          <div class="date-nav">
+            <button class="icon-btn" id="trackPrev" aria-label="Previous day">‹</button>
+            <strong id="trackDateLabel">Today</strong>
+            <button class="icon-btn" id="trackNext" aria-label="Next day">›</button>
+          </div>
+        </div>
+        <p class="muted">Tap a prayer to log it. <b>On time</b> → <b>Late / Jama'ah</b> → <b>Qada</b> → <b>Missed</b> → clear.</p>
+        <div class="track-grid" id="trackGrid"></div>
+
+        <div class="track-summary glass">
+          <div><span class="muted">Logged today</span><strong id="trackLogged">0 / 5</strong></div>
+          <div><span class="muted">Day score</span><strong id="trackScore">—</strong></div>
+          <div><span class="muted">Current streak</span><strong id="trackStreak">0 🔥</strong></div>
+        </div>
+      </section>
+
+      <!-- ====== VIEW: ANALYTICS ====== -->
+      <section class="view hidden" id="view-analytics">
+        <div class="section-head"><h2>Worship Analytics</h2><span class="muted">Local data on this device</span></div>
+        <div class="stat-grid">
+          <div class="stat-card glass"><span class="stat-card__label">Consistency score</span><strong class="stat-card__big" id="statConsistency">—</strong><span class="stat-card__sub" id="statConsistencySub">last 30 days</span></div>
+          <div class="stat-card glass"><span class="stat-card__label">Current streak</span><strong class="stat-card__big" id="statStreak">0</strong><span class="stat-card__sub">days in a row</span></div>
+          <div class="stat-card glass"><span class="stat-card__label">Best streak</span><strong class="stat-card__big" id="statBestStreak">0</strong><span class="stat-card__sub">all time</span></div>
+          <div class="stat-card glass"><span class="stat-card__label">Prayers logged</span><strong class="stat-card__big" id="statTotal">0</strong><span class="stat-card__sub">all time</span></div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-card glass">
+            <div class="chart-card__head"><h3>Last 14 days</h3><span class="muted">prayers completed (of 5)</span></div>
+            <div class="chart-box"><canvas id="weeklyChart"></canvas></div>
+          </div>
+          <div class="chart-card glass">
+            <div class="chart-card__head"><h3>By prayer</h3><span class="muted">completion rate · 30 days</span></div>
+            <div class="chart-box"><canvas id="byPrayerChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="chart-card glass">
+          <div class="chart-card__head"><h3>Status breakdown</h3><span class="muted">last 30 days</span></div>
+          <div class="breakdown" id="statusBreakdown"></div>
+        </div>
+        <button class="btn btn--ghost btn--danger" id="seedBtn" title="Generate sample history for the demo">✨ Generate sample data</button>
+        <button class="btn btn--ghost" id="resetBtn">Reset my data</button>
+      </section>
+
+      <!-- ====== VIEW: CALENDAR ====== -->
+      <section class="view hidden" id="view-calendar">
+        <div class="section-head">
+          <h2>Monthly Prayer Calendar</h2>
+          <div class="date-nav">
+            <button class="icon-btn" id="calPrev" aria-label="Previous month">‹</button>
+            <strong id="calMonthLabel">—</strong>
+            <button class="icon-btn" id="calNext" aria-label="Next month">›</button>
+          </div>
+        </div>
+        <div class="cal-toolbar">
+          <button class="btn btn--ghost" id="exportCsv">⬇ Export CSV</button>
+          <span class="muted">PDF/Excel export &amp; annual export are in the Premium blueprint.</span>
+        </div>
+        <div class="table-wrap glass">
+          <table class="cal-table" id="calTable">
+            <thead><tr><th>Date</th><th>Fajr</th><th>Sunrise</th><th>Dhuhr</th><th>Asr</th><th>Maghrib</th><th>Isha</th></tr></thead>
+            <tbody id="calBody"><tr><td colspan="7" class="muted">Loading month…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ====== VIEW: QIBLA ====== -->
+      <section class="view hidden" id="view-qibla">
+        <div class="section-head"><h2>Qibla Direction</h2><span class="muted" id="qiblaLoc"></span></div>
+        <div class="qibla-wrap">
+          <div class="qibla-card glass">
+            <div class="qibla-compass" id="qiblaCompass">
+              <div class="qibla-top-mark" aria-hidden="true"><span class="qibla-top-mark__kaaba">🕋</span><span class="qibla-top-mark__arrow">▼</span></div>
+              <div class="qibla-rose" id="qiblaRose">
+                <span class="qibla-card-dir qd-n">N</span>
+                <span class="qibla-card-dir qd-e">E</span>
+                <span class="qibla-card-dir qd-s">S</span>
+                <span class="qibla-card-dir qd-w">W</span>
+                <div class="qibla-needle" id="qiblaNeedle"></div>
+              </div>
+              <div class="qibla-center"></div>
+            </div>
+            <button class="btn" id="qiblaEnable">🧭 Enable live compass</button>
+            <p class="muted" id="qiblaHint">North-up view.</p>
+          </div>
+          <div class="qibla-info glass">
+            <div class="qibla-stat"><span class="muted">Qibla bearing</span><strong id="qiblaBearing">—</strong></div>
+            <div class="qibla-stat"><span class="muted">Compass direction</span><strong id="qiblaDir">—</strong></div>
+            <div class="qibla-stat"><span class="muted">Distance to Kaaba</span><strong id="qiblaDist">—</strong></div>
+            <div id="qiblaMap" class="leaflet-box"></div>
+            <p class="muted">Tip: move your phone in a figure-8 to calibrate the magnetometer.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== VIEW: RAMADAN ====== -->
+      <section class="view hidden" id="view-ramadan">
+        <div class="section-head"><h2 id="ramTitle">Ramadan</h2><span class="muted">Hijri year <b id="ramYear">—</b></span></div>
+        <div class="ram-top">
+          <div class="ram-count glass">
+            <span class="muted" id="ramCountLabel">Begins in</span>
+            <strong class="ram-count__big" id="ramCountValue">—</strong>
+          </div>
+          <div class="ram-iftar glass">
+            <span class="muted" id="ramIftarLabel">Iftar in</span>
+            <strong class="ram-iftar__big" id="ramIftarCountdown">--:--:--</strong>
+            <div class="ram-times">
+              <span>Imsak <b id="ramImsak">—</b></span>
+              <span>Suhoor ends <b id="ramSuhoor">—</b></span>
+              <span>Iftar <b id="ramIftar">—</b></span>
+            </div>
+          </div>
+          <div class="ram-eid glass">
+            <span class="muted">Eid al-Fitr in</span>
+            <strong class="ram-eid__big" id="ramEidValue">—</strong>
+          </div>
+        </div>
+
+        <div class="section-head"><h2>Season Trackers</h2></div>
+        <div class="ram-trackers">
+          <div class="ram-tracker glass">
+            <div class="ram-tracker__head"><span>🌙 Fasts kept</span><strong id="ramFastsVal">0 / 30</strong></div>
+            <div class="ram-bar"><span id="ramFastsBar"></span></div>
+            <div class="ram-tracker__btns"><button class="btn btn--ghost" data-ram="fasts" data-delta="-1">−</button><button class="btn" data-ram="fasts" data-delta="1">+ Fast</button></div>
+          </div>
+          <div class="ram-tracker glass">
+            <div class="ram-tracker__head"><span>🕌 Taraweeh nights</span><strong id="ramTaraweehVal">0 / 30</strong></div>
+            <div class="ram-bar"><span id="ramTaraweehBar"></span></div>
+            <div class="ram-tracker__btns"><button class="btn btn--ghost" data-ram="taraweeh" data-delta="-1">−</button><button class="btn" data-ram="taraweeh" data-delta="1">+ Night</button></div>
+          </div>
+          <div class="ram-tracker glass">
+            <div class="ram-tracker__head"><span>📖 Quran completion</span><strong id="ramQuranVal">0%</strong></div>
+            <div class="ram-bar"><span id="ramQuranBar"></span></div>
+            <div class="ram-tracker__btns"><button class="btn btn--ghost" data-ram="quranPct" data-delta="-5">−5%</button><button class="btn" data-ram="quranPct" data-delta="5">+5%</button></div>
+          </div>
+          <div class="ram-tracker glass">
+            <div class="ram-tracker__head"><span>💚 Charity</span><strong id="ramCharityVal">$0 / $300</strong></div>
+            <div class="ram-bar"><span id="ramCharityBar"></span></div>
+            <div class="ram-tracker__btns">
+              <button class="btn btn--ghost" data-ram="charity" data-delta="-10">−$10</button>
+              <button class="btn" data-ram="charity" data-delta="10">+$10</button>
+              <label class="ram-goal">Goal $<input type="number" id="ramCharityGoal" min="1" value="300" /></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== VIEW: MOSQUE FINDER ====== -->
+      <section class="view hidden" id="view-mosques">
+        <div class="section-head"><h2>Mosque Finder</h2><span class="muted" id="mosqueLoc"></span></div>
+        <div id="mosqueMap" class="leaflet-box leaflet-box--tall"></div>
+        <div class="section-head"><h2>Nearby</h2><span class="muted">live data · OpenStreetMap</span></div>
+        <div class="mosque-list" id="mosqueList"></div>
+        <div class="section-head"><h2>★ Favorites</h2></div>
+        <div class="mosque-list" id="mosqueFavs"></div>
+      </section>
+
+      <!-- ====== VIEW: ADHKAR ====== -->
+      <section class="view hidden" id="view-adhkar">
+        <div class="section-head"><h2>Adhkar &amp; Du'as</h2><span class="muted" id="adhkarProgress"></span></div>
+        <div class="adhkar-tabs" id="adhkarTabs"></div>
+        <div class="adhkar-list" id="adhkarList"></div>
+      </section>
+
+      <footer class="app-footer">
+        <span>PrayerHub prototype · prayer data by <a href="https://aladhan.com" target="_blank" rel="noopener">AlAdhan API</a> · maps © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></span>
+        <span class="muted">Demo slice — full architecture in <code>/docs</code></span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/config.js"></script>
+  <script src="js/prayer-times.js"></script>
+  <script src="js/tracking.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/qibla.js"></script>
+  <script src="js/ramadan.js"></script>
+  <script src="js/mosques.js"></script>
+  <script src="js/adhkar.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
