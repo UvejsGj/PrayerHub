@@ -16,7 +16,7 @@ A modern, glassmorphism **Islamic prayer & worship dashboard** that runs in the 
 - **Ramadan** — countdown to Ramadan & Eid, fasting timetable, live Iftar countdown, season trackers
 - **Mosque finder** — interactive OpenStreetMap map + live nearby-mosque search, favorites
 - **Adhkar & Du'as** — morning/evening/sleep/travel/after-prayer with tap-to-count and progress
-- **Quran** — read all 114 surahs with translation + audio recitation, bookmarks and reading progress
+- **Quran** — read all 114 surahs with translation + audio recitation **highlighted word-by-word** in sync with the reciter, bookmarks and reading progress
 - **Light + dark mode**, fully **responsive / mobile-first**, accessible, with an **offline
   solar-calculation fallback** if the prayer-time API is unreachable
 - **Optional account + cloud sync** — sign in with email (top-right) to back up your data and sync
@@ -57,7 +57,7 @@ Vanilla **HTML / CSS / JavaScript** · [Chart.js](https://www.chartjs.org/) (ana
 ## Credits
 
 - Prayer times by the [AlAdhan API](https://aladhan.com)
-- Quran text, translations & audio by the [AlQuran.cloud API](https://alquran.cloud)
+- Quran words, audio & word-timings by the [Quran.com API](https://quran.com); translations by the [AlQuran.cloud API](https://alquran.cloud)
 - Maps & mosque data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors (Overpass API)
 
 ## License
