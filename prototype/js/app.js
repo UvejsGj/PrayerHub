@@ -99,7 +99,6 @@
     if (name === 'ramadan') PH.ramadan.render();
     if (name === 'mosques') PH.mosques.render();
     if (name === 'adhkar') PH.adhkar.render();
-    if (name === 'family') PH.family.render();
     if (name === 'quran') PH.quran.render();
     setMenu(false);
   }
@@ -251,7 +250,7 @@
 
     // hash routing on load
     const h = (location.hash || '').replace('#', '');
-    if (['dashboard','tracking','analytics','calendar','qibla','ramadan','mosques','adhkar','family','quran'].includes(h)) showView(h);
+    if (['dashboard','tracking','analytics','calendar','qibla','ramadan','mosques','adhkar','quran'].includes(h)) showView(h);
   }
 
   /* ---------- cloud rehydrate hook ---------- */

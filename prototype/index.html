@@ -53,7 +53,6 @@
         <a class="nav__item" data-view="ramadan" href="#ramadan"><span class="nav__ico material-symbols-outlined">nightlight</span> <span data-i18n="nav.ramadan">Ramadan</span></a>
         <a class="nav__item" data-view="mosques" href="#mosques"><span class="nav__ico material-symbols-outlined">mosque</span> <span data-i18n="nav.mosques">Mosque Finder</span></a>
         <a class="nav__item" data-view="adhkar" href="#adhkar"><span class="nav__ico material-symbols-outlined">self_improvement</span> <span data-i18n="nav.adhkar">Adhkar &amp; Du'as</span></a>
-        <a class="nav__item" data-view="family" href="#family"><span class="nav__ico material-symbols-outlined">groups</span> <span data-i18n="nav.family">Family</span></a>
         <a class="nav__item" data-view="quran" href="#quran"><span class="nav__ico material-symbols-outlined">menu_book</span> <span data-i18n="nav.quran">Quran</span></a>
       </nav>
 
@@ -321,33 +320,6 @@
         <div class="adhkar-list" id="adhkarList"></div>
       </section>
 
-      <!-- ====== VIEW: FAMILY ====== -->
-      <section class="view hidden" id="view-family">
-        <div class="section-head">
-          <h2 id="familyName">Family</h2>
-          <button class="btn btn--ico" id="familyInvite"><span class="material-symbols-outlined">person_add</span> <span data-i18n="fam.invite">Invite member</span></button>
-        </div>
-        <div class="fam-top">
-          <div class="fam-card glass">
-            <span class="muted" data-i18n="fam.goal">Weekly family goal</span>
-            <strong class="fam-card__big" id="famGoalText">—</strong>
-            <div class="ram-bar"><span id="famGoalBar"></span></div>
-            <span class="muted" id="famGoalSub"></span>
-          </div>
-          <div class="fam-card glass fam-streak">
-            <span class="material-symbols-outlined fam-streak__ico">local_fire_department</span>
-            <div><strong class="fam-card__big" id="famStreak">0</strong><span class="muted" data-i18n="fam.streakLabel">family streak — days every member prayed</span></div>
-          </div>
-          <div class="fam-card glass">
-            <span class="muted" data-i18n="fam.members">Members</span>
-            <strong class="fam-card__big" id="famCount">0</strong>
-            <span class="muted" data-i18n="fam.inFamily">in your family</span>
-          </div>
-        </div>
-        <div class="section-head"><h2 data-i18n="fam.leaderboard">Leaderboard</h2><span class="muted" data-i18n="fam.leaderboardSub">this week · prayers completed (of 35)</span></div>
-        <div class="fam-board" id="famBoard"></div>
-      </section>
-
       <!-- ====== VIEW: QURAN ====== -->
       <section class="view hidden" id="view-quran">
         <div class="section-head">
@@ -420,7 +392,6 @@
   <script src="js/ramadan.js"></script>
   <script src="js/mosques.js"></script>
   <script src="js/adhkar.js"></script>
-  <script src="js/family.js"></script>
   <script src="js/quran.js"></script>
   <script src="js/cloud.js"></script>
   <script src="js/app.js"></script>

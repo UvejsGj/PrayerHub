@@ -16,7 +16,6 @@ A modern, glassmorphism **Islamic prayer & worship dashboard** that runs in the 
 - **Ramadan** — countdown to Ramadan & Eid, fasting timetable, live Iftar countdown, season trackers
 - **Mosque finder** — interactive OpenStreetMap map + live nearby-mosque search, favorites
 - **Adhkar & Du'as** — morning/evening/sleep/travel/after-prayer with tap-to-count and progress
-- **Family** — shared dashboard with a weekly goal, family streak and a leaderboard
 - **Quran** — read all 114 surahs with translation + audio recitation, bookmarks and reading progress
 - **Light + dark mode**, fully **responsive / mobile-first**, accessible, with an **offline
   solar-calculation fallback** if the prayer-time API is unreachable
@@ -45,7 +44,7 @@ PrayerHub/
 ├─ prototype/
 │  ├─ index.html
 │  ├─ css/styles.css
-│  └─ js/{config,prayer-times,tracking,ui,qibla,ramadan,mosques,adhkar,family,quran,cloud,app}.js
+│  └─ js/{config,i18n,prayer-times,tracking,ui,qibla,ramadan,mosques,adhkar,quran,cloud,app}.js
 └─ dev-server.mjs        # zero-dependency static server
 ```
 
