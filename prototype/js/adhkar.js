@@ -9,11 +9,11 @@ PH.adhkar = (function () {
   const FAV = 'prayerhub.adhkar.fav.v1';
 
   const CATEGORIES = [
-    { id: 'morning', label: 'Morning', ico: '🌅' },
-    { id: 'evening', label: 'Evening', ico: '🌇' },
-    { id: 'sleep', label: 'Sleep', ico: '🌙' },
-    { id: 'travel', label: 'Travel', ico: '🧳' },
-    { id: 'after_prayer', label: 'After Prayer', ico: '🤲' },
+    { id: 'morning', label: 'Morning', ico: 'wb_sunny' },
+    { id: 'evening', label: 'Evening', ico: 'wb_twilight' },
+    { id: 'sleep', label: 'Sleep', ico: 'bedtime' },
+    { id: 'travel', label: 'Travel', ico: 'flight' },
+    { id: 'after_prayer', label: 'After Prayer', ico: 'self_improvement' },
   ];
 
   // Concise, widely-cited set. References abbreviated.
@@ -75,7 +75,7 @@ PH.adhkar = (function () {
     if (cat) activeCat = cat;
     // tabs
     $('adhkarTabs').innerHTML = CATEGORIES.map(c =>
-      `<button class="adhkar-tab ${c.id === activeCat ? 'is-active' : ''}" data-cat="${c.id}">${c.ico} ${c.label}</button>`).join('');
+      `<button class="adhkar-tab ${c.id === activeCat ? 'is-active' : ''}" data-cat="${c.id}"><span class="material-symbols-outlined">${c.ico}</span> ${c.label}</button>`).join('');
     $('adhkarTabs').querySelectorAll('.adhkar-tab').forEach(b =>
       b.addEventListener('click', () => render(b.dataset.cat)));
 
@@ -89,7 +89,7 @@ PH.adhkar = (function () {
       return `<div class="adhkar-card glass ${complete ? 'is-done' : ''}" data-id="${d.id}">
         <div class="adhkar-card__top">
           <span class="adhkar-card__count">${c} / ${d.repeat}</span>
-          <button class="adhkar-fav ${fav ? 'is-fav' : ''}" data-fav="${d.id}" title="Favorite">${fav ? '♥' : '♡'}</button>
+          <button class="adhkar-fav ${fav ? 'is-fav' : ''}" data-fav="${d.id}" title="Favorite"><span class="material-symbols-outlined">${fav ? 'favorite' : 'favorite_border'}</span></button>
         </div>
         <p class="adhkar-ar">${esc(d.ar)}</p>
         <p class="adhkar-en">${esc(d.en)}</p>

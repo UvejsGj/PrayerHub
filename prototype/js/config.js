@@ -8,11 +8,11 @@ PH.config = {
 
   // The 5 obligatory prayers (Sunrise is shown but not "trackable").
   prayers: [
-    { key: 'Fajr',    label: 'Fajr',    ar: 'الفجر',   ico: '🌄' },
-    { key: 'Dhuhr',   label: 'Dhuhr',   ar: 'الظهر',   ico: '☀️' },
-    { key: 'Asr',     label: 'Asr',     ar: 'العصر',   ico: '🌤️' },
-    { key: 'Maghrib', label: 'Maghrib', ar: 'المغرب',  ico: '🌇' },
-    { key: 'Isha',    label: 'Isha',    ar: 'العشاء',  ico: '🌙' },
+    { key: 'Fajr',    label: 'Fajr',    ar: 'الفجر',   ico: 'wb_twilight' },
+    { key: 'Dhuhr',   label: 'Dhuhr',   ar: 'الظهر',   ico: 'light_mode' },
+    { key: 'Asr',     label: 'Asr',     ar: 'العصر',   ico: 'partly_cloudy_day' },
+    { key: 'Maghrib', label: 'Maghrib', ar: 'المغرب',  ico: 'wb_twilight' },
+    { key: 'Isha',    label: 'Isha',    ar: 'العشاء',  ico: 'bedtime' },
   ],
 
   // AlAdhan method codes mapped to the spec's requested methods.

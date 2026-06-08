@@ -19,7 +19,7 @@ PH.ui = (function () {
   /* ---------- theme ---------- */
   function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    $('themeToggle').textContent = theme === 'dark' ? '🌙' : '☀️';
+    $('themeToggle').innerHTML = `<span class="material-symbols-outlined">${theme === 'dark' ? 'dark_mode' : 'light_mode'}</span>`;
     document.querySelector('meta[name=theme-color]').setAttribute('content', theme === 'dark' ? '#070b16' : '#eaf1fb');
   }
 
@@ -81,7 +81,7 @@ PH.ui = (function () {
       card.className = 'prayer-card glass' + (isNext ? ' is-next' : '') + (passed ? ' is-passed' : '');
       card.style.animationDelay = (i * 60) + 'ms';
       card.innerHTML = `
-        <span class="prayer-card__ico">${p.ico}</span>
+        <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>
         <span class="prayer-card__name">${p.label}<span class="ar">${p.ar}</span></span>
         <span class="prayer-card__time">${PH.fmtTime(timings[p.key])}</span>
         <span class="prayer-card__meta">${passed ? 'passed' : (isNext ? 'upcoming' : 'today')}</span>
@@ -130,7 +130,7 @@ PH.ui = (function () {
       cell.className = 'track-cell glass-soft';
       if (st) cell.dataset.status = st;
       cell.innerHTML = `
-        <span class="prayer-card__ico">${p.ico}</span>
+        <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>
         <span class="track-cell__name">${p.label}</span>
         <span class="track-cell__time">${timings ? PH.fmtTime(timings[p.key]) : '—'}</span>
         <span class="track-cell__status">${meta ? meta.label : 'not logged'}</span>`;
@@ -140,7 +140,7 @@ PH.ui = (function () {
     const logged = PRAYERS.filter(p => day[p.key]).length;
     $('trackLogged').textContent = `${logged} / 5`;
     $('trackScore').textContent = Math.round(PH.track.dayScore(day) * 100) + '%';
-    $('trackStreak').textContent = PH.track.currentStreak() + ' 🔥';
+    $('trackStreak').innerHTML = PH.track.currentStreak() + ' <span class="material-symbols-outlined" style="font-size:1.15rem;color:var(--gold);vertical-align:-2px">local_fire_department</span>';
     const now = new Date();
     const isToday = key === PH.dateKey(now);
     const isYday = key === PH.dateKey(new Date(now.getTime() - 864e5));

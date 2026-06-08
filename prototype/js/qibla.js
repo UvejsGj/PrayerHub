@@ -36,7 +36,7 @@ PH.qibla = (function () {
     const b = bearingTo(p.lat, p.lng), d = distanceTo(p.lat, p.lng);
     lastBearing = b;
     if (d < 3) { // standing at the Sacred Mosque — bearing is undefined
-      $('qiblaBearing').textContent = '🕋';
+      $('qiblaBearing').innerHTML = '<span class="material-symbols-outlined" style="font-size:1.6rem">mosque</span>';
       $('qiblaDir').textContent = 'At the Kaaba';
       $('qiblaDist').textContent = Math.round(d * 1000) + ' m';
       $('qiblaHint').textContent = "You're at the Sacred Mosque — face the Kaaba directly.";
@@ -62,8 +62,8 @@ PH.qibla = (function () {
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap', maxZoom: 18,
       }).addTo(map);
-      const kaabaIcon = L.divIcon({ html: '🕋', className: 'ph-emoji-marker', iconSize: [28, 28] });
-      const userIcon = L.divIcon({ html: '📍', className: 'ph-emoji-marker', iconSize: [28, 28] });
+      const kaabaIcon = L.divIcon({ html: '<span class="material-symbols-outlined" style="color:#10b981;font-size:30px">mosque</span>', className: 'ph-marker', iconSize: [30, 30] });
+      const userIcon = L.divIcon({ html: '<span class="material-symbols-outlined" style="color:#0ea5e9;font-size:30px">person_pin_circle</span>', className: 'ph-marker', iconSize: [30, 30] });
       userMarker = L.marker([p.lat, p.lng], { icon: userIcon }).addTo(map).bindPopup('You');
       kaabaMarker = L.marker([KAABA.lat, KAABA.lng], { icon: kaabaIcon }).addTo(map).bindPopup('Kaaba');
       line = L.polyline([[p.lat, p.lng], [KAABA.lat, KAABA.lng]], { color: '#10b981', weight: 2, dashArray: '6 6' }).addTo(map);

@@ -113,7 +113,7 @@ PH.cloud = (function () {
         <button class="btn btn--ghost" id="signOutBtn">Sign out</button>`;
       $('signOutBtn').addEventListener('click', signOut);
     } else {
-      area.innerHTML = `<button class="btn btn--ghost" id="signInOpen">☁ Sign in</button>`;
+      area.innerHTML = `<button class="btn btn--ghost btn--ico" id="signInOpen"><span class="material-symbols-outlined">cloud</span> Sign in</button>`;
       $('signInOpen').addEventListener('click', openModal);
     }
   }

@@ -65,7 +65,7 @@ PH.mosques = (function () {
     map.setView([p.lat, p.lng], 14);
     if (userMarker) userMarker.setLatLng([p.lat, p.lng]);
     else userMarker = L.marker([p.lat, p.lng], {
-      icon: L.divIcon({ html: '📍', className: 'ph-emoji-marker', iconSize: [28, 28] }),
+      icon: L.divIcon({ html: '<span class="material-symbols-outlined" style="color:#0ea5e9;font-size:32px">person_pin_circle</span>', className: 'ph-marker', iconSize: [32, 32] }),
     }).addTo(map).bindPopup('You are here');
     setTimeout(() => map && map.invalidateSize(), 150);
   }
@@ -75,7 +75,7 @@ PH.mosques = (function () {
   function addMarkers(list, userLat, userLng) {
     if (!map) return;
     clearMarkers();
-    const icon = L.divIcon({ html: '🕌', className: 'ph-emoji-marker', iconSize: [30, 30] });
+    const icon = L.divIcon({ html: '<span class="material-symbols-outlined" style="color:#10b981;font-size:30px">mosque</span>', className: 'ph-marker', iconSize: [30, 30] });
     list.forEach(m => {
       const mk = L.marker([m.lat, m.lng], { icon }).addTo(map)
         .bindPopup(`<b>${esc(m.name)}</b><br>${(distance(userLat, userLng, m.lat, m.lng)).toFixed(1)} km`);
@@ -94,7 +94,7 @@ PH.mosques = (function () {
         <span class="muted">${m.dist.toFixed(1)} km${m.denom ? ' · ' + esc(m.denom) : ''}${m.addr ? ' · ' + esc(m.addr) : ''}</span>
       </div>
       <div class="mosque-row__actions">
-        <button class="icon-btn mosque-fav ${fav ? 'is-fav' : ''}" title="Favorite" data-id="${m.id}">${fav ? '♥' : '♡'}</button>
+        <button class="icon-btn mosque-fav ${fav ? 'is-fav' : ''}" title="Favorite" data-id="${m.id}"><span class="material-symbols-outlined">${fav ? 'favorite' : 'favorite_border'}</span></button>
         <a class="btn btn--ghost" target="_blank" rel="noopener"
            href="https://www.openstreetmap.org/directions?to=${m.lat}%2C${m.lng}">Directions ↗</a>
       </div>
@@ -113,7 +113,7 @@ PH.mosques = (function () {
     el.querySelectorAll('.mosque-fav').forEach(b => b.addEventListener('click', () => {
       const m = lastResults.find(x => x.id === b.dataset.id);
       const nowFav = toggleFav(m);
-      b.classList.toggle('is-fav', nowFav); b.textContent = nowFav ? '♥' : '♡';
+      b.classList.toggle('is-fav', nowFav); b.innerHTML = `<span class="material-symbols-outlined">${nowFav ? 'favorite' : 'favorite_border'}</span>`;
       renderFavs();
       PH.ui.toast(nowFav ? 'Added to favorites.' : 'Removed from favorites.');
     }));
@@ -122,7 +122,7 @@ PH.mosques = (function () {
   function renderFavs() {
     const favs = loadFavs();
     const el = $('mosqueFavs');
-    if (!favs.length) { el.innerHTML = '<p class="muted">No favorite mosques yet — tap ♡ on any result.</p>'; return; }
+    if (!favs.length) { el.innerHTML = '<p class="muted">No favorite mosques yet — tap the heart on any result.</p>'; return; }
     el.innerHTML = favs.map(m => `<div class="mosque-row glass-soft">
       <div class="mosque-row__main"><strong>★ ${esc(m.name)}</strong></div>
       <div class="mosque-row__actions">
