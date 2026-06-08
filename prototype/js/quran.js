@@ -105,12 +105,14 @@ PH.quran = (function () {
 
   async function show(n) {
     const wrap = $('quranAyat');
+    // jumping to a DIFFERENT surah while audio plays → stop it; re-rendering the
+    // SAME surah (e.g. on a language switch) keeps the audio + highlight going.
+    if (playingKey && Number(playingKey.split(':')[0]) !== n) stop();
     wrap.innerHTML = `<p class="muted">${PH.t('quran.loading')}</p>`;
     $('quranSurah').value = n;
     try {
       const { meta, ayat } = await loadSurah(n);
       ayatList = ayat.map(a => ({ key: `${n}:${a.n}`, audio: a.audio }));
-      playingKey = null;
       $('quranSurahName').textContent = `${meta.englishName} · ${meta.name}`;
       $('quranSurahSub').textContent = `${meta.englishNameTranslation} · ${meta.revelationType} · ${meta.numberOfAyahs} ayat`;
       const bm = bookmarks(), read = prog().read || {};
@@ -132,6 +134,8 @@ PH.quran = (function () {
       }).join('');
       bindAyat();
       markRead(`${n}:1`); // opening a surah counts the first ayah as reached
+      paintPlaying(); // restore the playing highlight after a re-render
+      if (playingKey) { scrollToAyah(playingKey); updateTime(); }
       updateStats();
     } catch (e) {
       wrap.innerHTML = `<p class="muted">${PH.t('quran.error')}</p><button class="btn" id="quranRetry">↻ ${PH.t('mosq.retry')}</button>`;
@@ -200,5 +204,12 @@ PH.quran = (function () {
     const bar = el.querySelector('.ayah__seek > span'); if (bar && audio.duration) bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
   }
 
-  return { render };
+  // Switch the translation edition to match the app language. The actual
+  // re-render is driven by showView() right after this in app.js.
+  function setLang() {
+    edition = PH.i18n.lang === 'sq' ? 'sq.ahmeti' : 'en.asad';
+    const sel = $('quranEdition'); if (sel) sel.value = edition;
+  }
+
+  return { render, setLang };
 })();

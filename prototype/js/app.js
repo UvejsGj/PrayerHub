@@ -199,6 +199,7 @@
       PH.state.prefs.lang = next; savePrefs();
       PH.i18n.setLang(next);
       $('langLabel').textContent = next.toUpperCase();
+      if (PH.quran && PH.quran.setLang) PH.quran.setLang(); // match Quran translation to language
       // refresh JS-rendered content in the new language
       const p = PH.state.prefs;
       if (PH.state.today) {
