@@ -78,6 +78,12 @@
     $('sidebarStreak').textContent = track.currentStreak();
   }
 
+  /* ---------- mobile menu ---------- */
+  function setMenu(open) {
+    document.querySelector('.sidebar').classList.toggle('open', open);
+    const bd = $('sidebarBackdrop'); if (bd) bd.classList.toggle('show', open);
+  }
+
   /* ---------- view routing ---------- */
   function showView(name) {
     current = name;
@@ -95,7 +101,7 @@
     if (name === 'adhkar') PH.adhkar.render();
     if (name === 'family') PH.family.render();
     if (name === 'quran') PH.quran.render();
-    document.querySelector('.sidebar').classList.remove('open');
+    setMenu(false);
   }
 
   function onTrackCycle(key, prayerKey) {
@@ -185,7 +191,9 @@
     });
 
     // mobile menu
-    $('menuToggle').addEventListener('click', () => document.querySelector('.sidebar').classList.toggle('open'));
+    $('menuToggle').addEventListener('click', () => setMenu(!document.querySelector('.sidebar').classList.contains('open')));
+    $('sidebarClose').addEventListener('click', () => setMenu(false));
+    $('sidebarBackdrop').addEventListener('click', () => setMenu(false));
 
     // qibla live compass
     $('qiblaEnable').addEventListener('click', () => PH.qibla.enable());
