@@ -66,3 +66,24 @@ PH.wallNow = function (tz) {
   try { return new Date(new Date().toLocaleString('en-US', { timeZone: tz })); }
   catch (e) { return new Date(); }
 };
+
+/* ---- Maps ----
+   Paste your Mapbox PUBLIC token (starts with "pk.") below to use Mapbox tiles.
+   If left empty, the maps fall back to free OpenStreetMap tiles. */
+PH.config.mapboxToken = '';
+
+/* Returns a Leaflet tile layer: Mapbox (theme-aware) when a token is set,
+   otherwise OpenStreetMap. Pass the global Leaflet `L`. */
+PH.mapTiles = function (L) {
+  const token = PH.config.mapboxToken;
+  if (token) {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const style = dark ? 'dark-v11' : 'streets-v12';
+    return L.tileLayer(
+      `https://api.mapbox.com/styles/v1/mapbox/${style}/tiles/512/{z}/{x}/{y}@2x?access_token=${token}`,
+      { attribution: '© Mapbox © OpenStreetMap', tileSize: 512, zoomOffset: -1, maxZoom: 19 }
+    );
+  }
+  return L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    { attribution: '© OpenStreetMap contributors', maxZoom: 19 });
+};

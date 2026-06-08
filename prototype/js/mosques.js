@@ -58,9 +58,7 @@ PH.mosques = (function () {
     if (typeof L === 'undefined') return;
     if (!map) {
       map = L.map('mosqueMap', { attributionControl: true });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors', maxZoom: 19,
-      }).addTo(map);
+      PH.mapTiles(L).addTo(map);
     }
     map.setView([p.lat, p.lng], 14);
     if (userMarker) userMarker.setLatLng([p.lat, p.lng]);

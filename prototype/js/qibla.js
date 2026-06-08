@@ -57,9 +57,7 @@ PH.qibla = (function () {
     const el = $('qiblaMap');
     if (!map) {
       map = L.map(el, { zoomControl: false, attributionControl: true });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap', maxZoom: 18,
-      }).addTo(map);
+      PH.mapTiles(L).addTo(map);
       const kaabaIcon = L.divIcon({ html: '<span class="material-symbols-outlined" style="color:#10b981;font-size:30px">mosque</span>', className: 'ph-marker', iconSize: [30, 30] });
       const userIcon = L.divIcon({ html: '<span class="material-symbols-outlined" style="color:#0ea5e9;font-size:30px">person_pin_circle</span>', className: 'ph-marker', iconSize: [30, 30] });
       userMarker = L.marker([p.lat, p.lng], { icon: userIcon }).addTo(map).bindPopup('You');
