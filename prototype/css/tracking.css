@@ -1,29 +1,36 @@
 /* ============================================================
-   tracking — date nav, prayer cells, day summary
+   tracking — a logging list (status-colored rows), not equal cards
    ============================================================ */
 .date-nav { display: flex; align-items: center; gap: 12px; }
 .date-nav strong { min-width: 130px; text-align: center; }
-.track-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+
+.track-grid { display: flex; flex-direction: column; border-top: 1px solid var(--glass-brd); }
 .track-cell {
-  padding: 20px 14px; text-align: center; cursor: pointer; user-select: none;
-  display: flex; flex-direction: column; gap: 8px; align-items: center;
-  transition: transform .2s var(--ease), border-color .2s;
-  border: 1px solid var(--glass-brd);
+  display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 18px;
+  padding: 17px 14px; text-align: left; cursor: pointer; user-select: none;
+  border: 0; border-bottom: 1px solid var(--glass-brd); border-left: 3px solid transparent;
+  transition: background .15s var(--ease), border-color .15s var(--ease);
 }
-.track-cell:hover { transform: translateY(-3px); }
-.track-cell__name { font-weight: 700; }
-.track-cell__time { font-size: .78rem; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.track-cell:hover { background: var(--glass-soft); }
+.track-cell .prayer-card__ico { display: none; }
+.track-cell__name { font-weight: 700; font-size: 1.05rem; }
+.track-cell__time { color: var(--text-dim); font-variant-numeric: tabular-nums; }
 .track-cell__status {
-  font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
-  padding: 4px 10px; border-radius: 20px; background: var(--glass-soft); color: var(--text-dim);
+  font-size: .64rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+  padding: 5px 12px; border-radius: 20px; background: var(--glass-soft); color: var(--text-faint);
 }
-.track-cell[data-status="ontime"] { border-color: var(--emerald); box-shadow: inset 0 0 0 1px var(--emerald); }
-.track-cell[data-status="ontime"] .track-cell__status { background: rgba(16,185,129,.2); color: var(--emerald-soft); }
-.track-cell[data-status="late"] { border-color: var(--gold); }
-.track-cell[data-status="late"] .track-cell__status { background: rgba(245,196,81,.2); color: var(--gold); }
-.track-cell[data-status="qada"] .track-cell__status { background: rgba(99,102,241,.22); color: #a5b4fc; }
-.track-cell[data-status="missed"] { border-color: #f87171; opacity: .8; }
-.track-cell[data-status="missed"] .track-cell__status { background: rgba(248,113,113,.2); color: #fca5a5; }
-.track-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 18px 22px; }
-.track-summary div { display: flex; flex-direction: column; gap: 2px; }
-.track-summary strong { font-size: 1.4rem; font-weight: 800; }
+.track-cell[data-status="ontime"], .track-cell[data-status="jamaah"] { border-left-color: var(--emerald); }
+.track-cell[data-status="ontime"] .track-cell__status,
+.track-cell[data-status="jamaah"] .track-cell__status { background: rgba(16,185,129,.16); color: var(--emerald-soft); }
+.track-cell[data-status="late"] { border-left-color: var(--gold); }
+.track-cell[data-status="late"] .track-cell__status { background: rgba(224,168,58,.18); color: var(--gold); }
+.track-cell[data-status="qada"] { border-left-color: #818cf8; }
+.track-cell[data-status="qada"] .track-cell__status { background: rgba(99,102,241,.2); color: #a5b4fc; }
+.track-cell[data-status="missed"] { border-left-color: #f87171; }
+.track-cell[data-status="missed"] .track-cell__status { background: rgba(248,113,113,.16); color: #fca5a5; }
+
+/* day summary — a quiet stat band; the day score carries the weight */
+.track-summary { display: flex; flex-wrap: wrap; gap: 18px 48px; padding: 24px 4px 0; background: transparent; border: 0; box-shadow: none; }
+.track-summary div { display: flex; flex-direction: column; gap: 3px; }
+.track-summary .muted { font-size: .66rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); }
+.track-summary strong { font-size: 1.85rem; font-weight: 800; font-variant-numeric: tabular-nums; }

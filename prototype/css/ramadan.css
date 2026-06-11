@@ -1,21 +1,43 @@
 /* ============================================================
-   ramadan — countdown cards, timetable, season trackers
+   ramadan — Iftar countdown dominant; trackers as progress rows
    ============================================================ */
-.ram-top { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 14px; }
-.ram-count, .ram-eid { padding: 22px; display: flex; flex-direction: column; gap: 4px; justify-content: center; }
-.ram-count__big, .ram-eid__big { font-size: 2.1rem; font-weight: 800; letter-spacing: -.02em; }
-.ram-iftar { padding: 22px; display: flex; flex-direction: column; gap: 8px; text-align: center; position: relative; overflow: hidden; }
-.ram-iftar::after { content: ""; position: absolute; inset: 0; background: radial-gradient(400px 120px at 50% 0, var(--card-hi), transparent 70%); pointer-events: none; }
-.ram-iftar__big { font-size: 2.6rem; font-weight: 800; color: var(--emerald-soft); font-variant-numeric: tabular-nums; }
-.ram-times { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; font-size: .82rem; color: var(--text-dim); }
+.ram-top {
+  display: grid; grid-template-columns: 1fr 1fr;
+  grid-template-areas: "iftar iftar" "count eid";
+  gap: 26px 44px; padding-bottom: 30px; border-bottom: 1px solid var(--glass-brd);
+}
+.ram-iftar {
+  grid-area: iftar; background: transparent; border: 0; box-shadow: none; padding: 0;
+  display: flex; flex-direction: column; gap: 6px; text-align: left; overflow: visible;
+}
+.ram-iftar::after { display: none; }
+.ram-iftar .muted, #ramIftarLabel { font-size: var(--t-eyebrow); text-transform: uppercase; letter-spacing: .2em; color: var(--text-dim); }
+.ram-iftar__big { font-size: var(--display); font-weight: 800; letter-spacing: -.045em; line-height: .92; color: var(--text); font-variant-numeric: tabular-nums; }
+.ram-times { justify-content: flex-start; gap: 28px; margin-top: 10px; font-size: .82rem; color: var(--text-dim); }
 .ram-times b { color: var(--text); font-variant-numeric: tabular-nums; }
-.ram-trackers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-.ram-tracker { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; }
-.ram-tracker__head { display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; }
+
+.ram-count { grid-area: count; }
+.ram-eid { grid-area: eid; }
+.ram-count, .ram-eid { background: transparent; border: 0; box-shadow: none; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.ram-count .muted, .ram-eid .muted { font-size: .66rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); }
+.ram-count__big, .ram-eid__big { font-size: 1.7rem; font-weight: 700; letter-spacing: -.01em; }
+
+/* season trackers — rows with a wide progress bar, not equal cards */
+.ram-trackers { display: flex; flex-direction: column; border-top: 1px solid var(--glass-brd); margin-top: 4px; }
+.ram-tracker {
+  display: grid; grid-template-columns: minmax(150px, 1fr) 2fr auto; align-items: center; gap: 22px;
+  padding: 16px 4px; background: transparent; border: 0; border-bottom: 1px solid var(--glass-brd); border-radius: 0; box-shadow: none;
+}
+.ram-tracker__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-weight: 600; }
 .ram-tracker__head strong { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
-.ram-ico { font-size: 1.1rem; color: var(--emerald-soft); }
-.ram-bar { height: 10px; border-radius: 20px; background: var(--glass-soft); overflow: hidden; }
-.ram-bar span { display: block; height: 100%; width: 0; border-radius: 20px; background: linear-gradient(90deg, var(--grad-1), var(--grad-2)); transition: width .4s var(--ease); }
+.ram-ico { font-size: 1.05rem; color: var(--emerald-soft); }
+.ram-bar { height: 8px; border-radius: 20px; background: var(--glass-soft); overflow: hidden; }
+.ram-bar span { display: block; height: 100%; width: 0; border-radius: 20px; background: var(--emerald); transition: width .4s var(--ease); }
 .ram-tracker__btns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.ram-goal { font-size: .8rem; color: var(--text-dim); margin-left: auto; }
+.ram-goal { font-size: .8rem; color: var(--text-dim); margin-left: 4px; }
 .ram-goal input { width: 70px; background: var(--glass-soft); border: 1px solid var(--glass-brd); color: var(--text); border-radius: 9px; padding: 6px 8px; font: inherit; }
+
+@media (max-width: 720px) {
+  .ram-top { grid-template-columns: 1fr 1fr; }
+  .ram-tracker { grid-template-columns: 1fr; gap: 12px; }
+}

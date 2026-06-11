@@ -53,7 +53,7 @@
 .streak-badge span { font-size: .72rem; color: var(--text-dim); }
 .sidebar__note { font-size: .7rem; color: var(--text-dim); line-height: 1.5; }
 /* mobile close button + backdrop (shown via responsive.css) */
-.sidebar__close { display: none; position: absolute; top: 14px; right: 14px; z-index: 2; }
+.sidebar .sidebar__close { display: none; position: absolute; top: 14px; right: 14px; z-index: 2; }
 .sidebar-backdrop { display: none; }
 
 /* ---------- main ---------- */

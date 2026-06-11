@@ -185,11 +185,17 @@
       <!-- ====== VIEW: ANALYTICS ====== -->
       <section class="view hidden" id="view-analytics">
         <div class="section-head"><h2 data-i18n="an.title">Worship Analytics</h2><span class="muted" data-i18n="an.local">Local data on this device</span></div>
-        <div class="stat-grid">
-          <div class="stat-card glass"><span class="stat-card__label" data-i18n="an.consistency">Consistency score</span><strong class="stat-card__big" id="statConsistency">—</strong><span class="stat-card__sub" id="statConsistencySub" data-i18n="an.last30">last 30 days</span></div>
-          <div class="stat-card glass"><span class="stat-card__label" data-i18n="an.streak">Current streak</span><strong class="stat-card__big" id="statStreak">0</strong><span class="stat-card__sub" data-i18n="an.inRow">days in a row</span></div>
-          <div class="stat-card glass"><span class="stat-card__label" data-i18n="an.best">Best streak</span><strong class="stat-card__big" id="statBestStreak">0</strong><span class="stat-card__sub" data-i18n="an.allTime">all time</span></div>
-          <div class="stat-card glass"><span class="stat-card__label" data-i18n="an.total">Prayers logged</span><strong class="stat-card__big" id="statTotal">0</strong><span class="stat-card__sub" data-i18n="an.allTime">all time</span></div>
+        <div class="an-headline">
+          <div class="an-hero">
+            <span class="an-hero__label" data-i18n="an.consistency">Consistency score</span>
+            <strong class="an-hero__num" id="statConsistency">—</strong>
+            <span class="an-hero__sub" id="statConsistencySub" data-i18n="an.last30">last 30 days</span>
+          </div>
+          <div class="an-stats">
+            <div class="an-stat"><strong id="statStreak">0</strong><span data-i18n="an.streak">Current streak</span></div>
+            <div class="an-stat"><strong id="statBestStreak">0</strong><span data-i18n="an.best">Best streak</span></div>
+            <div class="an-stat"><strong id="statTotal">0</strong><span data-i18n="an.total">Prayers logged</span></div>
+          </div>
         </div>
 
         <div class="chart-row">

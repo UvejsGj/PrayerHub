@@ -1,12 +1,16 @@
 /* ============================================================
-   mosque finder — result list rows
+   mosque finder — map is dominant; results are open list rows
    ============================================================ */
-.mosque-list { display: flex; flex-direction: column; gap: 10px; }
-.mosque-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; }
+.mosque-list { display: flex; flex-direction: column; }
+.mosque-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 15px 4px; background: transparent; border: 0; border-bottom: 1px solid var(--glass-brd); border-radius: 0;
+}
 .mosque-row.flash { animation: rowflash 1.2s var(--ease); }
-@keyframes rowflash { 0%, 100% { background: var(--glass-soft); } 30% { background: var(--card-hi); } }
-.mosque-row__main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.mosque-row__main strong { font-size: .98rem; }
-.mosque-row__actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.mosque-fav { font-size: 1.1rem; }
-.mosque-fav.is-fav { color: #f87171; border-color: #f87171; }
+@keyframes rowflash { 0%, 100% { background: transparent; } 30% { background: var(--card-hi); } }
+.mosque-row__main { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.mosque-row__main strong { font-size: 1.02rem; }
+.mosque-row__actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.mosque-fav { width: auto; height: auto; border: 0; background: transparent; color: var(--text-dim); }
+.mosque-fav:hover { transform: none; color: var(--text); }
+.mosque-fav.is-fav { color: #f87171; border: 0; }
