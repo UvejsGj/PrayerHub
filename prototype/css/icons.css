@@ -1,0 +1,11 @@
+/* ============================================================
+   Material Symbols — alignment + per-context sizing
+   (no global font-size: container classes keep their own size)
+   ============================================================ */
+.material-symbols-outlined { vertical-align: middle; line-height: 1; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.btn--ico { display: inline-flex; align-items: center; gap: 6px; }
+.btn .material-symbols-outlined { font-size: 1.15rem; }
+.icon-btn .material-symbols-outlined { font-size: 1.3rem; }
+.nav__ico.material-symbols-outlined { font-size: 1.3rem; }
+.adhkar-tab .material-symbols-outlined { font-size: 1.1rem; }
+.adhkar-fav .material-symbols-outlined, .mosque-fav .material-symbols-outlined { font-size: 1.3rem; }

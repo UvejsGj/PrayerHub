@@ -1,0 +1,9 @@
+/* ============================================================
+   maps — shared Leaflet boxes + markers (Qibla & Mosque finder)
+   ============================================================ */
+.leaflet-box { height: 240px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--glass-brd); }
+.leaflet-box--tall { height: 440px; }
+.leaflet-container { background: var(--glass-soft); font-family: 'Inter', sans-serif; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--bg-1); color: var(--text); }
+.ph-emoji-marker { font-size: 22px; line-height: 1; text-align: center; background: none; border: 0; filter: drop-shadow(0 2px 3px rgba(0,0,0,.45)); }
+.ph-marker { background: none; border: 0; }

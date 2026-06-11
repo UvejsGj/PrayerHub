@@ -1,0 +1,89 @@
+/* ============================================================
+   dashboard — editorial hero (dominant countdown),
+   prayer timeline (next enlarged, passed recede), quiet sun/night
+   ============================================================ */
+#view-dashboard { gap: 44px; }
+
+/* ---------- hero (the one dominant element: the countdown) ---------- */
+.hero { padding: 4px 2px; }
+.hero__meta {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  font-size: .82rem; color: var(--text-dim);
+}
+.hero__clock { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+.hero__meta-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--text-faint); }
+.hero__hijri { color: var(--emerald-soft); }
+.hero__eyebrow {
+  margin-top: 30px; font-size: var(--t-eyebrow); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .2em; color: var(--text-dim);
+}
+.hero__next-name {
+  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
+  letter-spacing: -.03em; line-height: 1.05; margin-top: 8px;
+}
+.hero__countdown {
+  font-size: var(--display); font-weight: 800; letter-spacing: -.045em;
+  line-height: .92; margin-top: 4px; font-variant-numeric: tabular-nums;
+}
+.hero__progress {
+  height: 3px; max-width: 620px; margin-top: 30px;
+  background: var(--glass-soft); border-radius: 3px; overflow: hidden;
+}
+.hero__progress span {
+  display: block; height: 100%; width: 0; border-radius: 3px;
+  background: var(--emerald); transition: width 1s linear;
+}
+
+/* ---------- today's prayers — a timeline, not a grid of equal cards ---------- */
+.today { display: flex; flex-direction: column; gap: 18px; }
+.prayer-grid {
+  display: flex; align-items: stretch; gap: 0;
+  border-top: 1px solid var(--glass-brd);
+  overflow-x: auto; scrollbar-width: none;
+}
+.prayer-grid::-webkit-scrollbar { display: none; }
+.prayer-skel { flex: 1; height: 78px; }
+
+.prayer-card {
+  flex: 1 0 96px; min-width: 96px;
+  position: relative; padding: 20px 16px 6px 0;
+  display: flex; flex-direction: column; gap: 5px;
+  background: transparent; border: 0; border-radius: 0; box-shadow: none;
+  transition: opacity .25s var(--ease);
+}
+.prayer-card.is-next { flex: 1.6 0 150px; }
+.prayer-card.is-passed { opacity: .4; }
+/* node on the timeline */
+.prayer-card::before {
+  content: ""; position: absolute; top: -5px; left: 0;
+  width: 9px; height: 9px; border-radius: 50%; background: var(--text-faint);
+}
+.prayer-card.is-next::before { background: var(--emerald); box-shadow: 0 0 0 5px var(--card-hi); }
+.prayer-card__ico { display: none; }
+.prayer-card__name { order: 1; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--text-dim); }
+.prayer-card__name .ar { display: none; }
+.prayer-card__time { order: 2; font-size: 1.45rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.prayer-card.is-next .prayer-card__name { color: var(--emerald-soft); }
+.prayer-card.is-next .prayer-card__time { font-size: 2rem; }
+.prayer-card__meta { display: none; }
+.prayer-card__check {
+  order: 3; margin-top: 4px; align-self: flex-start;
+  font: inherit; font-size: .68rem; font-weight: 600; cursor: pointer;
+  background: none; border: 0; padding: 0; color: var(--text-faint);
+  border-bottom: 1px dashed transparent; transition: color .2s, border-color .2s;
+}
+.prayer-card__check:hover { color: var(--text); border-bottom-color: var(--text-faint); }
+.prayer-card__check.done { color: var(--emerald-soft); border-bottom-color: transparent; }
+
+/* ---------- sun & night — quiet reference row, no boxes ---------- */
+.sun-night { display: flex; flex-direction: column; gap: 14px; }
+.sun-night__title { font-size: var(--t-eyebrow); font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: var(--text-dim); }
+.info-grid { display: flex; flex-wrap: wrap; gap: 20px 46px; }
+.info-card { display: flex; flex-direction: column; gap: 3px; padding: 0; background: transparent; border: 0; box-shadow: none; }
+.info-card span { font-size: .66rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); }
+.info-card strong { font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 560px) {
+  #view-dashboard { gap: 32px; }
+  .hero__countdown { font-size: clamp(2.8rem, 16vw, 4rem); }
+}

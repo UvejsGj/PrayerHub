@@ -1,0 +1,34 @@
+/* ============================================================
+   qibla — compass dial + needle + stats
+   ============================================================ */
+.qibla-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.qibla-card { padding: 26px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.qibla-compass { position: relative; width: 264px; height: 264px; max-width: 72vw; max-height: 72vw; }
+.qibla-top-mark { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 4; }
+.qibla-top-mark__kaaba { display: block; font-size: 1.3rem; }
+.qibla-top-mark__arrow { display: block; color: var(--emerald); font-size: .9rem; line-height: .6; }
+.qibla-rose {
+  position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--glass-brd);
+  background: radial-gradient(circle at center, var(--glass-soft), transparent 72%);
+  transition: transform .12s linear;
+}
+.qibla-rose::before { content: ""; position: absolute; inset: 16px; border-radius: 50%; border: 1px dashed var(--glass-brd); }
+.qibla-card-dir { position: absolute; font-weight: 800; font-size: .82rem; color: var(--text-dim); }
+.qd-n { top: 9px; left: 50%; transform: translateX(-50%); color: var(--emerald); }
+.qd-s { bottom: 9px; left: 50%; transform: translateX(-50%); }
+.qd-e { right: 12px; top: 50%; transform: translateY(-50%); }
+.qd-w { left: 12px; top: 50%; transform: translateY(-50%); }
+.qibla-needle { position: absolute; left: 50%; bottom: 50%; width: 8px; height: 44%; transform-origin: bottom center; transform: translateX(-50%) rotate(0deg); }
+.qibla-needle::before { /* shaft */
+  content: ""; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+  width: 4px; height: 100%; border-radius: 4px; background: linear-gradient(to top, transparent, var(--emerald-soft));
+}
+.qibla-needle::after { /* arrowhead */
+  content: ""; position: absolute; left: 50%; top: -2px; transform: translateX(-50%);
+  border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 14px solid var(--emerald);
+}
+.qibla-compass.is-aligned .qibla-needle::after { filter: drop-shadow(0 0 8px var(--emerald)); }
+.qibla-center { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; border-radius: 50%; background: var(--emerald); transform: translate(-50%, -50%); z-index: 2; box-shadow: 0 0 0 4px var(--card-hi); }
+.qibla-info { padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+.qibla-stat { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--glass-brd); padding-bottom: 8px; }
+.qibla-stat strong { font-size: 1.45rem; font-weight: 800; font-variant-numeric: tabular-nums; }

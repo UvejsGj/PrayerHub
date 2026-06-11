@@ -1,0 +1,12 @@
+/* ============================================================
+   mosque finder — result list rows
+   ============================================================ */
+.mosque-list { display: flex; flex-direction: column; gap: 10px; }
+.mosque-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; }
+.mosque-row.flash { animation: rowflash 1.2s var(--ease); }
+@keyframes rowflash { 0%, 100% { background: var(--glass-soft); } 30% { background: var(--card-hi); } }
+.mosque-row__main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.mosque-row__main strong { font-size: .98rem; }
+.mosque-row__actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.mosque-fav { font-size: 1.1rem; }
+.mosque-fav.is-fav { color: #f87171; border-color: #f87171; }

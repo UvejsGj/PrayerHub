@@ -1,0 +1,16 @@
+/* ============================================================
+   analytics — stat cards, charts, status breakdown
+   ============================================================ */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.stat-card { padding: 18px 20px; display: flex; flex-direction: column; gap: 2px; }
+.stat-card__label { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); }
+.stat-card__big { font-size: 2.2rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; background: linear-gradient(120deg, var(--grad-1), var(--grad-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-card__sub { font-size: .74rem; color: var(--text-dim); }
+.chart-row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; }
+.chart-card { padding: 20px; }
+.chart-box { position: relative; height: 220px; }
+.chart-card__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; gap: 10px; }
+.breakdown { display: flex; flex-direction: column; gap: 10px; }
+.breakdown__row { display: grid; grid-template-columns: 90px 1fr 50px; align-items: center; gap: 12px; font-size: .85rem; }
+.breakdown__bar { height: 12px; border-radius: 20px; background: var(--glass-soft); overflow: hidden; }
+.breakdown__bar span { display: block; height: 100%; border-radius: 20px; }

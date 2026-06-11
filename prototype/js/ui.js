@@ -99,7 +99,7 @@ PH.ui = (function () {
       const isNext = np.index === i && !np.tomorrow ? np.at > now && np.key === p.key : false;
       const logged = dayLog[p.key];
       const card = document.createElement('div');
-      card.className = 'prayer-card glass' + (isNext ? ' is-next' : '') + (passed ? ' is-passed' : '');
+      card.className = 'prayer-card' + (isNext ? ' is-next' : '') + (passed ? ' is-passed' : '');
       card.style.animationDelay = (i * 60) + 'ms';
       card.innerHTML = `
         <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>

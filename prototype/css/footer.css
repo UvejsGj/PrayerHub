@@ -1,0 +1,12 @@
+/* ============================================================
+   footer + toast
+   ============================================================ */
+.app-footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 18px 6px 4px; font-size: .78rem; color: var(--text-dim); }
+.app-footer code { background: var(--glass-soft); padding: 2px 7px; border-radius: 6px; }
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(120%);
+  background: var(--glass-bg); backdrop-filter: blur(var(--blur)); border: 1px solid var(--glass-brd);
+  color: var(--text); padding: 13px 22px; border-radius: 14px; box-shadow: var(--shadow);
+  font-size: .88rem; font-weight: 600; z-index: 50; transition: transform .4s var(--ease); max-width: 90vw;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }

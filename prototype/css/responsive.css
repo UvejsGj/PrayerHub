@@ -1,0 +1,39 @@
+/* ============================================================
+   responsive — all breakpoint overrides (loaded last)
+   ============================================================ */
+@media (max-width: 900px) {
+  /* layout */
+  .app-shell { grid-template-columns: 1fr; padding: 14px; gap: 14px; }
+  .sidebar {
+    position: fixed; left: 14px; top: 14px; bottom: 14px; width: 264px; z-index: 40;
+    transform: translateX(-130%); transition: transform .35s var(--ease); height: auto;
+    background: var(--glass-bg); border: 1px solid var(--glass-brd); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 22px 16px; overflow-y: auto;
+  }
+  .sidebar.open { transform: none; }
+  .app-shell .sidebar__close { display: grid; }
+  .app-shell .sidebar-backdrop { display: block; position: fixed; inset: 0; background: rgba(2,6,18,.55); backdrop-filter: blur(2px); z-index: 39; opacity: 0; pointer-events: none; transition: opacity .3s var(--ease); }
+  .app-shell .sidebar-backdrop.show { opacity: 1; pointer-events: auto; }
+  .topbar .menu-toggle { display: grid; }
+  .hero { grid-template-columns: 1fr; gap: 22px; }
+  .hero__next { align-items: flex-start; text-align: left; }
+  .hero__time { font-size: 3rem; }
+  /* grids */
+  .prayer-grid, .info-grid, .track-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .chart-row { grid-template-columns: 1fr; }
+  /* modules */
+  .qibla-wrap { grid-template-columns: 1fr; }
+  .ram-top { grid-template-columns: 1fr; }
+  .ram-trackers { grid-template-columns: 1fr; }
+  .adhkar-list { grid-template-columns: 1fr; }
+  .quran-meta { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 560px) {
+  .prayer-grid, .info-grid, .track-grid, .stat-grid { grid-template-columns: 1fr 1fr; }
+  .loc-picker input { width: 104px; }
+  .hero__time { font-size: 2.5rem; }
+  .topbar { gap: 10px; }
+  .auth-email { display: none; }
+}

@@ -1,0 +1,91 @@
+/* ============================================================
+   base — design tokens, themes, reset, surfaces
+   Calm, near-flat surfaces. Emerald is the single rationed accent.
+   Token NAMES are kept stable so every screen inherits the system.
+   ============================================================ */
+:root {
+  --emerald: #10b981;
+  --emerald-soft: #34d399;
+  --gold: #e0a83a;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --blur: 14px;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --maxw: 1280px;
+  /* type scale */
+  --display: clamp(3.4rem, 9vw, 6rem);
+  --t-eyebrow: .72rem;
+}
+
+/* ---- Dark (default) ---- */
+[data-theme="dark"] {
+  --bg-0: #0a0e16;
+  --bg-1: #0e1320;
+  --text: #eef2f8;
+  --text-dim: #9aa6bd;
+  --text-faint: #5d6880;
+  --glass-bg: #121826;      /* card surface (near-solid, not glass) */
+  --glass-brd: rgba(255, 255, 255, .07);
+  --glass-soft: rgba(255, 255, 255, .035);
+  --grad-1: #34d399;
+  --grad-2: #22b8e6;
+  --grad-3: #6366f1;
+  --card-hi: rgba(52, 211, 153, .13);
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -22px rgba(0,0,0,.7);
+}
+
+/* ---- Light ---- */
+[data-theme="light"] {
+  --bg-0: #f6f7f9;
+  --bg-1: #eef1f5;
+  --text: #0f172a;
+  --text-dim: #5b6678;
+  --text-faint: #97a1b2;
+  --glass-bg: #ffffff;
+  --glass-brd: rgba(15, 23, 42, .08);
+  --glass-soft: #f2f4f7;
+  --grad-1: #10b981;
+  --grad-2: #0284c7;
+  --grad-3: #4f46e5;
+  --card-hi: rgba(16, 185, 129, .10);
+  --shadow: 0 1px 2px rgba(16,24,40,.05), 0 14px 30px -20px rgba(16,24,40,.18);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--bg-0);
+  background-image: radial-gradient(900px 600px at 100% -5%, var(--bg-1), transparent 70%);
+  min-height: 100vh;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background .4s var(--ease), color .3s var(--ease);
+  overflow-x: hidden;
+}
+
+.hijri { font-family: 'Amiri', serif; }
+.hidden { display: none !important; }
+.muted { color: var(--text-dim); font-size: .85rem; }
+a { color: var(--emerald-soft); text-underline-offset: 3px; }
+
+/* The decorative aurora/pattern is intentionally dropped for a calmer canvas. */
+.bg-aurora { display: none; }
+
+/* ---------- surfaces ---------- */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.glass-soft {
+  background: var(--glass-soft);
+  border: 1px solid var(--glass-brd);
+  border-radius: var(--radius-sm);
+}
