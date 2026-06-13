@@ -95,7 +95,7 @@ PH.quran = (function () {
     $('quranEdition').value = edition;
     try {
       const list = await loadList();
-      $('quranSurah').innerHTML = list.map(s => `<option value="${s.number}">${s.number}. ${s.englishName} — ${s.name}</option>`).join('');
+      $('quranSurah').innerHTML = list.map(s => `<option value="${Number(s.number)}">${Number(s.number)}. ${PH.esc(s.englishName)} — ${PH.esc(s.name)}</option>`).join('');
       $('quranSurah').value = current;
     } catch (e) {}
     $('quranSurah').addEventListener('change', e => { current = Number(e.target.value); show(current); });
@@ -105,7 +105,7 @@ PH.quran = (function () {
     audio.addEventListener('timeupdate', updateTime);
   }
 
-  const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const esc = PH.esc;
 
   async function show(n) {
     const wrap = $('quranAyat');
@@ -121,7 +121,7 @@ PH.quran = (function () {
       wrap.innerHTML = ayat.map(a => {
         const key = `${n}:${a.n}`;
         const isBm = bm.includes(key), isRead = !!read[key];
-        const arHtml = a.words.map(w => `<span class="qw" data-w="${w.pos}">${w.ar}</span>`).join(' ');
+        const arHtml = a.words.map(w => `<span class="qw" data-w="${Number(w.pos)}">${esc(w.ar)}</span>`).join(' ');
         return `<div class="ayah glass ${isRead ? 'is-read' : ''}" data-key="${key}">
           <div class="ayah__bar">
             <button class="ayah__num" data-read="${key}" title="Mark read">${a.n}</button>

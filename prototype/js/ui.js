@@ -104,7 +104,7 @@ PH.ui = (function () {
       card.innerHTML = `
         <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>
         <span class="prayer-card__name">${PH.t('prayer.' + p.key)}<span class="ar">${p.ar}</span></span>
-        <span class="prayer-card__time">${PH.fmtTime(timings[p.key])}</span>
+        <span class="prayer-card__time">${PH.esc(PH.fmtTime(timings[p.key]))}</span>
         <span class="prayer-card__meta">${passed ? PH.t('card.passed') : (isNext ? PH.t('card.upcoming') : PH.t('card.today'))}</span>
         <button class="prayer-card__check ${logged && logged !== 'missed' ? 'done' : ''}" data-prayer="${p.key}">
           ${logged ? (PH.config.statusMeta[logged] ? PH.t('st.' + logged) : '') : '○ ' + PH.t('card.mark')}
@@ -153,7 +153,7 @@ PH.ui = (function () {
       cell.innerHTML = `
         <span class="prayer-card__ico material-symbols-outlined">${p.ico}</span>
         <span class="track-cell__name">${PH.t('prayer.' + p.key)}</span>
-        <span class="track-cell__time">${timings ? PH.fmtTime(timings[p.key]) : '—'}</span>
+        <span class="track-cell__time">${timings ? PH.esc(PH.fmtTime(timings[p.key])) : '—'}</span>
         <span class="track-cell__status">${st ? PH.t('st.' + st) : PH.t('st.none')}</span>`;
       cell.addEventListener('click', () => onCycle(key, p.key));
       grid.appendChild(cell);
@@ -241,9 +241,9 @@ PH.ui = (function () {
       const key = `${g.year}-${String(monthIndex(g.month.en)+1).padStart(2,'0')}-${String(g.day).padStart(2,'0')}`;
       const isToday = key === todayKey;
       return `<tr class="${isToday ? 'is-today' : ''}">
-        <td>${g.day} <span class="cal-hijri">${d.hijri.day} ${d.hijri.month.en}</span></td>
-        <td>${PH.fmtTime(t.Fajr)}</td><td>${PH.fmtTime(t.Sunrise)}</td><td>${PH.fmtTime(t.Dhuhr)}</td>
-        <td>${PH.fmtTime(t.Asr)}</td><td>${PH.fmtTime(t.Maghrib)}</td><td>${PH.fmtTime(t.Isha)}</td></tr>`;
+        <td>${PH.esc(g.day)} <span class="cal-hijri">${PH.esc(d.hijri.day)} ${PH.esc(d.hijri.month.en)}</span></td>
+        <td>${PH.esc(PH.fmtTime(t.Fajr))}</td><td>${PH.esc(PH.fmtTime(t.Sunrise))}</td><td>${PH.esc(PH.fmtTime(t.Dhuhr))}</td>
+        <td>${PH.esc(PH.fmtTime(t.Asr))}</td><td>${PH.esc(PH.fmtTime(t.Maghrib))}</td><td>${PH.esc(PH.fmtTime(t.Isha))}</td></tr>`;
     }).join('');
   }
   function monthIndex(name) {

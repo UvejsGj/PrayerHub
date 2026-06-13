@@ -2,6 +2,11 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
+  <!-- Content Security Policy: no inline scripts allowed (neutralises injected
+       <script>/onerror= even if an output-encode is missed); sources locked to
+       the exact CDNs/APIs the app uses. frame-ancestors/HSTS are set as real
+       headers (dev-server.mjs + _headers) since a <meta> cannot express them. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://api.mapbox.com https://unpkg.com; media-src 'self' https://verses.quran.com; connect-src 'self' https://api.aladhan.com https://api.quran.com https://api.alquran.cloud https://nominatim.openstreetmap.org https://overpass-api.de https://*.supabase.co wss://*.supabase.co; form-action 'self'" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="PrayerHub — modern Islamic prayer & worship dashboard. Prayer times, countdown, tracking and analytics." />
   <meta name="theme-color" content="#0f172a" />
@@ -396,10 +401,12 @@
   <!-- Toast -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+          integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+          integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
   <script src="js/config.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/prayer-times.js"></script>

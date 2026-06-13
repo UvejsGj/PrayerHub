@@ -67,6 +67,16 @@ PH.wallNow = function (tz) {
   catch (e) { return new Date(); }
 };
 
+/* HTML-escape any value before it is interpolated into innerHTML.
+   Treat ALL third-party API data (AlAdhan, Quran.com, OpenStreetMap, …)
+   as untrusted. Escapes the 5 HTML-significant chars so the value is safe
+   in both element-text and quoted-attribute contexts. */
+PH.esc = function (s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+};
+
 /* ---- Maps ----
    Paste your Mapbox PUBLIC token (starts with "pk.") below to use Mapbox tiles.
    If left empty, the maps fall back to free OpenStreetMap tiles. */
