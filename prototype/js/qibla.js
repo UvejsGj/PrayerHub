@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub — Qibla module
+   Salah OS — Qibla module
    Great-circle bearing + distance to the Kaaba, a CSS compass
    that rotates with the device magnetometer (when available),
    and a Leaflet map view of the direction line.

@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub — i18n (English + Albanian / Shqip)
+   Salah OS — i18n (English + Albanian / Shqip)
    Static text uses data-i18n / data-i18n-ph / data-i18n-title.
    Dynamic (JS-rendered) text uses PH.t('key').
    ============================================================ */
@@ -10,7 +10,7 @@ PH.i18n = (function () {
       'nav.dashboard': 'Dashboard', 'nav.tracking': 'Prayer Tracking', 'nav.analytics': 'Analytics',
       'nav.calendar': 'Monthly Calendar', 'nav.qibla': 'Qibla', 'nav.ramadan': 'Ramadan',
       'nav.mosques': 'Mosque Finder', 'nav.adhkar': "Adhkar & Du'as", 'nav.family': 'Family', 'nav.quran': 'Quran',
-      'side.streak': 'day streak', 'side.note': 'Prototype · core slice of the PrayerHub blueprint',
+      'side.streak': 'day streak', 'side.note': 'Prototype · core slice of the Salah OS blueprint',
       'top.searchCity': 'Search city…', 'top.country': 'Country', 'top.search': 'Search', 'top.auto': 'Auto',
       'auth.signIn': 'Sign in', 'auth.signOut': 'Sign out',
       'status.locating': 'Locating…', 'status.live': 'Live · AlAdhan', 'status.offline': 'Offline estimate',
@@ -63,7 +63,7 @@ PH.i18n = (function () {
       'nav.dashboard': 'Paneli', 'nav.tracking': 'Gjurmimi i Namazit', 'nav.analytics': 'Analitika',
       'nav.calendar': 'Kalendari Mujor', 'nav.qibla': 'Kibla', 'nav.ramadan': 'Ramazani',
       'nav.mosques': 'Gjej Xhaminë', 'nav.adhkar': 'Dhikret & Lutjet', 'nav.family': 'Familja', 'nav.quran': 'Kurani',
-      'side.streak': 'ditë rresht', 'side.note': 'Prototip · pjesë qendrore e planit PrayerHub',
+      'side.streak': 'ditë rresht', 'side.note': 'Prototip · pjesë qendrore e planit Salah OS',
       'top.searchCity': 'Kërko qytetin…', 'top.country': 'Shteti', 'top.search': 'Kërko', 'top.auto': 'Auto',
       'auth.signIn': 'Kyçu', 'auth.signOut': 'Çkyçu',
       'status.locating': 'Duke gjetur vendndodhjen…', 'status.live': 'Drejtpërdrejt · AlAdhan', 'status.offline': 'Vlerësim jashtë linje',

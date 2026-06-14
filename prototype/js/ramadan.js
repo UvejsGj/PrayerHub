@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub — Ramadan module
+   Salah OS — Ramadan module
    Hijri-aware countdown to Ramadan / Eid, daily fasting timetable
    (Imsak, Suhoor end, Iftar) with live Iftar countdown, and
    season trackers (fasts, taraweeh, Quran, charity) persisted locally.

@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub tracking + analytics
+   Salah OS tracking + analytics
    Persists per-day prayer logs in localStorage and derives
    streaks, consistency score and breakdowns.
    data shape: { "YYYY-MM-DD": { Fajr:"ontime", Asr:"missed", ... } }

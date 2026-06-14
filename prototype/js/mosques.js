@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub — Mosque finder
+   Salah OS — Mosque finder
    Leaflet (OpenStreetMap) interactive map + live nearby-mosque
    search via the Overpass API. Favorites persist locally.
    ============================================================ */

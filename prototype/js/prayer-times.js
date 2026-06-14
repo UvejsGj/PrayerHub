@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub prayer-times engine
+   Salah OS prayer-times engine
    - Primary source: AlAdhan API
    - Fallback: self-contained solar calculation (PrayTimes-style)
      so the dashboard ALWAYS renders, even offline.
@@ -176,7 +176,7 @@ PH.times = (function () {
     try {
       return await fetchDay(opts);
     } catch (e) {
-      console.warn('[PrayerHub] live day failed, using fallback:', e.message);
+      console.warn('[Salah OS] live day failed, using fallback:', e.message);
       if (opts.lat == null) throw e; // city-only with no coords → cannot fallback accurately
       return computeLocal(opts);
     }
@@ -186,7 +186,7 @@ PH.times = (function () {
     try {
       return await fetchMonth(opts);
     } catch (e) {
-      console.warn('[PrayerHub] live month failed, building fallback month:', e.message);
+      console.warn('[Salah OS] live month failed, building fallback month:', e.message);
       if (opts.lat == null) throw e;
       const days = new Date(opts.year, opts.month, 0).getDate();
       const arr = [];

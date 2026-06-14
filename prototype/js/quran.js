@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub — Quran module
+   Salah OS — Quran module
    Read with translation + audio recitation (Mishary Alafasy), a
    word-by-word highlight synced to the recitation, bookmark verses,
    mark ayat read, and track progress.

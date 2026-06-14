@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub — cloud sync (Supabase)
+   Salah OS — cloud sync (Supabase)
    Adds optional accounts + cross-device sync ON TOP of the local
    storage the app already uses. Signed out, everything still works
    locally; signed in, all `prayerhub.*` data syncs to one row in the
@@ -65,7 +65,7 @@ PH.cloud = (function () {
     const { error } = await client.from('user_state')
       .upsert({ user_id: session.user.id, data, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
     setSync(error ? 'error' : 'synced');
-    if (error) console.warn('[PrayerHub] push failed:', error.message);
+    if (error) console.warn('[Salah OS] push failed:', error.message);
   }
 
   async function pull() {
@@ -73,7 +73,7 @@ PH.cloud = (function () {
     setSync('syncing');
     const { data: row, error } = await client.from('user_state')
       .select('data').eq('user_id', session.user.id).maybeSingle();
-    if (error) { setSync('error'); console.warn('[PrayerHub] pull failed:', error.message); return; }
+    if (error) { setSync('error'); console.warn('[Salah OS] pull failed:', error.message); return; }
     const remote = (row && row.data) || {};
     const merged = deepMerge(remote, gatherLocal());
     applyingRemote = true;
@@ -140,7 +140,7 @@ PH.cloud = (function () {
   /* ---------- init ---------- */
   function init() {
     if (!window.supabase || !window.supabase.createClient) {
-      console.warn('[PrayerHub] Supabase SDK not loaded — running local-only.');
+      console.warn('[Salah OS] Supabase SDK not loaded — running local-only.');
       const area = $('authArea'); if (area) area.innerHTML = '';
       return;
     }

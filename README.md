@@ -1,4 +1,4 @@
-# 🕌 PrayerHub
+# 🕌 Salah OS
 
 A modern, glassmorphism **Islamic prayer & worship dashboard** that runs in the browser with
 **live prayer-time data** — no build step and no backend required.
@@ -40,7 +40,7 @@ Or serve the folder with any static server, e.g. `npx serve prototype`.
 ## Project layout
 
 ```
-PrayerHub/
+Salah OS/
 ├─ prototype/
 │  ├─ index.html
 │  ├─ css/styles.css

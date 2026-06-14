@@ -1,4 +1,4 @@
-// Minimal zero-dependency static server for the PrayerHub prototype.
+// Minimal zero-dependency static server for the Salah OS prototype.
 // Usage: node dev-server.mjs   (serves ./prototype on PORT or 4173)
 //
 // Security posture: read-only (GET/HEAD), strictly confined to ./prototype,
@@ -60,4 +60,4 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain', ...SECURITY_HEADERS }).end('Not found');
   }
-}).listen(PORT, () => console.log(`PrayerHub prototype running at http://localhost:${PORT}`));
+}).listen(PORT, () => console.log(`Salah OS prototype running at http://localhost:${PORT}`));

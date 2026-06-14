@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub app — bootstrap, state, events, routing
+   Salah OS app — bootstrap, state, events, routing
    ============================================================ */
 (function () {
   const ui = PH.ui, track = PH.track;
@@ -237,7 +237,7 @@
       const blob = new Blob([csv], { type: 'text/csv' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `prayerhub-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}.csv`;
+      a.download = `salah-os-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}.csv`;
       a.click(); URL.revokeObjectURL(a.href);
       ui.toast('Tracking log exported as CSV.');
     });

@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub — Adhkar & Du'as
+   Salah OS — Adhkar & Du'as
    Morning / evening / sleep / travel / after-prayer remembrances
    with tap-to-count, daily progress, and favorites (local).
    ============================================================ */

@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub UI — rendering, charts, theme, countdown helpers
+   Salah OS UI — rendering, charts, theme, countdown helpers
    ============================================================ */
 PH.ui = (function () {
   const $ = id => document.getElementById(id);

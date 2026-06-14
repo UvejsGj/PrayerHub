@@ -1,5 +1,5 @@
 /* ============================================================
-   PrayerHub config — shared constants & global namespace
+   Salah OS config — shared constants & global namespace
    ============================================================ */
 window.PH = window.PH || {};
 
