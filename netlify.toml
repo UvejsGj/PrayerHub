@@ -1,0 +1,15 @@
+# Netlify deploy config for Salah OS.
+# The whole app is the static prototype/ folder — there is no build step.
+# Security headers come from prototype/_headers (Netlify reads it automatically).
+
+[build]
+  publish = "prototype"
+  command = ""
+
+# In-page routing: serve index.html for any path that isn't a real file.
+# Netlify serves existing assets (css/, js/, *.html) before applying this,
+# so static files are unaffected.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

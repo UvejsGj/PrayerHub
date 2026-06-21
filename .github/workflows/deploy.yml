@@ -1,0 +1,54 @@
+name: CI & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Allow only one deploy at a time; cancel superseded runs on the same branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate (JS syntax)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # node --check parses (but does not run) each file — catches syntax
+      # errors before they ever reach the browser. Browser globals are fine
+      # because nothing executes.
+      - name: Syntax-check all JavaScript
+        run: |
+          set -e
+          for f in prototype/js/*.js dev-server.mjs; do
+            echo "checking $f"
+            node --check "$f"
+          done
+          echo "All JS files parsed cleanly."
+
+  deploy:
+    name: Deploy to Netlify
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy prototype/ to Netlify (production)
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: prototype
+          production-deploy: true
+          deploy-message: "CI deploy ${{ github.sha }}"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5

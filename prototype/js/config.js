@@ -82,6 +82,19 @@ PH.esc = function (s) {
    If left empty, the maps fall back to free OpenStreetMap tiles. */
 PH.config.mapboxToken = '';
 
+/* ---- Error tracking (Sentry, optional) ----
+   Local error capture is always on (see js/errors.js — inspect with
+   PH.errors.dump()). To ALSO stream errors to Sentry:
+     1. Paste your Sentry DSN below.
+     2. Add the Sentry loader to index.html ABOVE js/errors.js:
+        <script src="https://browser.sentry-cdn.com/8.0.0/bundle.min.js" crossorigin="anonymous"></script>
+        <script>Sentry.init({ dsn: PH.config.sentryDsn });</script>
+     3. Allow Sentry in the CSP (index.html <meta> AND _headers):
+        add  https://browser.sentry-cdn.com  to script-src
+        add  https://*.ingest.sentry.io       to connect-src
+   Left empty, nothing is sent anywhere off-device. */
+PH.config.sentryDsn = '';
+
 /* Returns a Leaflet tile layer: Mapbox (theme-aware) when a token is set,
    otherwise OpenStreetMap. Pass the global Leaflet `L`. */
 PH.mapTiles = function (L) {
