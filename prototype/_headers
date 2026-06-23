@@ -3,7 +3,7 @@
 ## in index.html is the fallback (it covers everything except frame-ancestors,
 ## HSTS and upgrade-insecure-requests, which require real headers).
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://api.mapbox.com https://unpkg.com; media-src 'self' https://verses.quran.com; connect-src 'self' https://api.aladhan.com https://api.quran.com https://api.alquran.cloud https://nominatim.openstreetmap.org https://overpass-api.de https://*.supabase.co wss://*.supabase.co; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://api.mapbox.com https://unpkg.com; media-src 'self' https://verses.quran.com; connect-src 'self' https://api.aladhan.com https://api.quran.com https://api.alquran.cloud https://nominatim.openstreetmap.org https://overpass-api.de https://countriesnow.space https://*.supabase.co wss://*.supabase.co; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer

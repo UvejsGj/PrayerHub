@@ -109,45 +109,21 @@
     $('sidebarStreak').textContent = track.currentStreak();
   }
 
-  /* ---------- geolocation ---------- */
-  function detectLocation() {
-    if (!navigator.geolocation) { ui.toast('Geolocation not supported.'); return; }
-    ui.toast('Detecting your location…');
-    navigator.geolocation.getCurrentPosition(async pos => {
-      const p = PH.state.prefs;
-      p.lat = +pos.coords.latitude.toFixed(4);
-      p.lng = +pos.coords.longitude.toFixed(4);
-      p.city = ''; p.country = '';
-      p.locationLabel = await reverseGeocode(p.lat, p.lng);
-      savePrefs();
-      PH.state.monthCache = {};
-      loadToday();
-      ui.toast('Location set: ' + p.locationLabel);
-    }, err => {
-      ui.toast('Location permission denied — search a city instead.');
-    }, { timeout: 8000, enableHighAccuracy: false });
-  }
-
-  async function reverseGeocode(lat, lng) {
-    try {
-      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10`, { headers: { 'Accept': 'application/json' } });
-      const j = await r.json();
-      const a = j.address || {};
-      const city = a.city || a.town || a.village || a.county || '';
-      return [city, a.country].filter(Boolean).join(', ') || `(${lat}, ${lng})`;
-    } catch (e) { return `(${lat}, ${lng})`; }
-  }
-
-  // Resolve a city/country to coordinates so coord-based features
-  // (Qibla, Mosque finder) work after a manual search. Null if not found.
-  async function forwardGeocode(city, country) {
-    try {
-      const q = encodeURIComponent([city, country].filter(Boolean).join(', '));
-      const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${q}`, { headers: { 'Accept': 'application/json' } });
-      const j = await r.json();
-      if (!j.length) return null;
-      return { lat: +(+j[0].lat).toFixed(4), lng: +(+j[0].lon).toFixed(4) };
-    } catch (e) { return null; }
+  /* ---------- location ---------- */
+  // Called by PH.location when the user picks a city or uses GPS.
+  function applyLocation(loc) {
+    const p = PH.state.prefs;
+    p.lat = (loc.lat != null) ? loc.lat : null;
+    p.lng = (loc.lng != null) ? loc.lng : null;
+    p.city = loc.city || '';
+    p.country = loc.country || '';
+    p.locationLabel = loc.label || p.locationLabel;
+    savePrefs();
+    PH.state.monthCache = {};
+    PH.location.refresh();
+    loadToday();
+    if (!$('view-calendar').classList.contains('hidden')) loadMonth();
+    ui.toast(PH.t('loc.set') + ' ' + p.locationLabel);
   }
 
   /* ---------- events ---------- */
@@ -156,23 +132,9 @@
     document.querySelectorAll('.nav__item[data-view]').forEach(a =>
       a.addEventListener('click', e => { e.preventDefault(); showView(a.dataset.view); }));
 
-    // city search (geocodes to coordinates so all features work)
-    $('cityForm').addEventListener('submit', async e => {
-      e.preventDefault();
-      const city = $('cityInput').value.trim();
-      if (!city) return;
-      const country = $('countryInput').value.trim();
-      const p = PH.state.prefs;
-      ui.toast('Searching “' + city + '”…');
-      const geo = await forwardGeocode(city, country);
-      if (geo) { p.lat = geo.lat; p.lng = geo.lng; }
-      else { p.lat = null; p.lng = null; }
-      p.city = city; p.country = country;
-      p.locationLabel = [city, country].filter(Boolean).join(', ');
-      savePrefs(); PH.state.monthCache = {}; loadToday();
-    });
-
-    $('geoBtn').addEventListener('click', detectLocation);
+    // location picker (country → city cascade, GPS, structured geocoding)
+    PH.location.init({ onSelect: applyLocation, getCurrent: () => PH.state.prefs });
+    $('locBtn').addEventListener('click', () => PH.location.open());
 
     // method
     $('methodSelect').value = PH.state.prefs.method;
@@ -260,8 +222,7 @@
     PH.state.prefs = loadPrefs();
     ui.setTheme(PH.state.prefs.theme);
     $('methodSelect').value = PH.state.prefs.method;
-    $('cityInput').value = PH.state.prefs.city || '';
-    $('countryInput').value = PH.state.prefs.country || '';
+    PH.location.refresh();
     PH.state.monthCache = {};
     loadToday();
     $('sidebarStreak').textContent = track.currentStreak();
@@ -275,6 +236,7 @@
     PH.i18n.setLang(PH.state.prefs.lang);
     $('langLabel').textContent = PH.i18n.lang.toUpperCase();
     bindEvents();
+    PH.location.refresh();
     loadToday();
     if (PH.cloud) PH.cloud.init();
     // live clock + countdown (+ Ramadan Iftar countdown when visible)

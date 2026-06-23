@@ -26,7 +26,7 @@ const CSP = [
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: https://*.tile.openstreetmap.org https://api.mapbox.com https://unpkg.com",
   "media-src 'self' https://verses.quran.com",
-  "connect-src 'self' https://api.aladhan.com https://api.quran.com https://api.alquran.cloud https://nominatim.openstreetmap.org https://overpass-api.de https://*.supabase.co wss://*.supabase.co",
+  "connect-src 'self' https://api.aladhan.com https://api.quran.com https://api.alquran.cloud https://nominatim.openstreetmap.org https://overpass-api.de https://countriesnow.space https://*.supabase.co wss://*.supabase.co",
   "form-action 'self'", "frame-ancestors 'none'",
 ].join('; ');
 

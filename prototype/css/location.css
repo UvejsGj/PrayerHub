@@ -1,0 +1,78 @@
+/* ============================================================
+   Location picker — topbar button, modal, and searchable combobox
+   ============================================================ */
+
+/* ---- topbar trigger button (replaces the old inline search form) ---- */
+.loc-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  max-width: 320px; min-width: 0; flex: 0 1 auto;
+  font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer;
+  color: var(--text); background: var(--glass-soft);
+  border: 1px solid var(--glass-brd); border-radius: 12px;
+  padding: 9px 12px; transition: border .2s, transform .15s var(--ease);
+}
+.loc-btn:hover { border-color: var(--emerald); transform: translateY(-1px); }
+.loc-btn__pin { font-size: 1.15rem; color: var(--emerald); flex: none; }
+.loc-btn__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.loc-btn__chev { font-size: 1.1rem; color: var(--text-dim); flex: none; }
+
+/* ---- modal shell (mirrors the auth modal) ---- */
+.loc-modal {
+  position: fixed; inset: 0; z-index: 60; padding: 20px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(2, 6, 18, .55); backdrop-filter: blur(5px);
+  animation: fadeUp .25s var(--ease);
+}
+.loc-modal.hidden { display: none; }
+.loc-modal__box {
+  width: 420px; max-width: 100%; padding: 28px 30px 30px;
+  display: flex; flex-direction: column; gap: 14px; position: relative;
+}
+.loc-modal__box h3 { font-size: 1.2rem; }
+.loc-modal__close {
+  position: absolute; top: 12px; right: 16px; background: none; border: 0;
+  color: var(--text-dim); font-size: 1.6rem; line-height: 1; cursor: pointer;
+}
+.loc-modal__close:hover { color: var(--text); }
+
+/* ---- GPS button + divider ---- */
+.loc-gps { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; width: 100%; }
+.loc-or {
+  display: flex; align-items: center; gap: 12px; color: var(--text-dim);
+  font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; margin: 2px 0;
+}
+.loc-or::before, .loc-or::after { content: ""; flex: 1; height: 1px; background: var(--glass-brd); }
+
+/* ---- labelled fields ---- */
+.loc-field { display: flex; flex-direction: column; gap: 6px; }
+.loc-field > span { font-size: .8rem; font-weight: 600; color: var(--text-dim); }
+
+/* ---- combobox ---- */
+.combo { position: relative; }
+.combo__input {
+  width: 100%; background: var(--glass-soft); border: 1px solid var(--glass-brd);
+  color: var(--text); padding: 12px 14px; border-radius: 11px; font: inherit;
+  outline: none; transition: border .2s;
+}
+.combo__input:focus { border-color: var(--emerald); }
+.combo__input::placeholder { color: var(--text-dim); }
+.combo__input:disabled { opacity: .55; cursor: not-allowed; }
+
+.combo__list {
+  position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 5;
+  margin: 0; padding: 5px; list-style: none; max-height: 240px; overflow-y: auto;
+  background: var(--bg-1); border: 1px solid var(--glass-brd); border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .35);
+}
+.combo__list.hidden { display: none; }
+.combo__list li {
+  padding: 9px 11px; border-radius: 8px; cursor: pointer; font-size: .9rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.combo__list li[data-v]:hover, .combo__list li.is-active { background: var(--card-hi); color: var(--emerald-soft); }
+.combo__empty, .combo__more { color: var(--text-dim); font-size: .82rem; cursor: default; }
+.combo__more { font-style: italic; }
+
+/* ---- status line ---- */
+.loc-status { min-height: 1.1em; font-size: .82rem; color: var(--text-dim); }
+.loc-status[data-kind="warn"] { color: var(--gold, #f5c451); }

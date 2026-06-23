@@ -6,7 +6,7 @@
        <script>/onerror= even if an output-encode is missed); sources locked to
        the exact CDNs/APIs the app uses. frame-ancestors/HSTS are set as real
        headers (dev-server.mjs + _headers) since a <meta> cannot express them. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://api.mapbox.com https://unpkg.com; media-src 'self' https://verses.quran.com; connect-src 'self' https://api.aladhan.com https://api.quran.com https://api.alquran.cloud https://nominatim.openstreetmap.org https://overpass-api.de https://*.supabase.co wss://*.supabase.co; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://api.mapbox.com https://unpkg.com; media-src 'self' https://verses.quran.com; connect-src 'self' https://api.aladhan.com https://api.quran.com https://api.alquran.cloud https://nominatim.openstreetmap.org https://overpass-api.de https://countriesnow.space https://*.supabase.co wss://*.supabase.co; form-action 'self'" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Salah OS — modern Islamic prayer & worship dashboard. Prayer times, countdown, tracking and analytics." />
   <meta name="theme-color" content="#0f172a" />
@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="css/adhkar.css" />
   <link rel="stylesheet" href="css/quran.css" />
   <link rel="stylesheet" href="css/cloud.css" />
+  <link rel="stylesheet" href="css/location.css" />
   <link rel="stylesheet" href="css/icons.css" />
   <link rel="stylesheet" href="css/effects.css" />
   <link rel="stylesheet" href="css/responsive.css" />
@@ -95,15 +96,11 @@
       <header class="topbar glass">
         <div class="topbar__left">
           <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle navigation"><span class="material-symbols-outlined">menu</span></button>
-          <div class="loc-picker">
-            <span class="loc-picker__pin material-symbols-outlined" aria-hidden="true">location_on</span>
-            <form id="cityForm" class="loc-picker__form" autocomplete="off">
-              <input id="cityInput" type="text" placeholder="Search city…" data-i18n-ph="top.searchCity" aria-label="City" />
-              <input id="countryInput" type="text" placeholder="Country" data-i18n-ph="top.country" aria-label="Country" />
-              <button class="btn btn--ghost" type="submit" data-i18n="top.search">Search</button>
-            </form>
-            <button class="btn btn--ghost btn--ico" id="geoBtn" title="Detect my location"><span class="material-symbols-outlined">my_location</span> <span data-i18n="top.auto">Auto</span></button>
-          </div>
+          <button class="loc-btn" id="locBtn" aria-haspopup="dialog" title="Change location">
+            <span class="loc-btn__pin material-symbols-outlined" aria-hidden="true">location_on</span>
+            <span class="loc-btn__label" id="locBtnLabel">Mecca, Saudi Arabia</span>
+            <span class="loc-btn__chev material-symbols-outlined" aria-hidden="true">expand_more</span>
+          </button>
         </div>
         <div class="topbar__right">
           <select id="methodSelect" class="select" aria-label="Calculation method">
@@ -398,6 +395,40 @@
     </div>
   </div>
 
+  <!-- Location picker modal -->
+  <div class="loc-modal hidden" id="locModal" role="dialog" aria-modal="true" aria-label="Choose location">
+    <div class="loc-modal__box glass">
+      <button class="loc-modal__close" id="locClose" aria-label="Close">×</button>
+      <h3><span class="material-symbols-outlined" style="vertical-align:-4px">location_on</span> <span data-i18n="loc.title">Choose location</span></h3>
+      <p class="muted" data-i18n="loc.sub">Pick your country, then your city.</p>
+
+      <button class="btn loc-gps" id="locGeo"><span class="material-symbols-outlined">my_location</span> <span data-i18n="loc.useGps">Use my current location</span></button>
+      <div class="loc-or"><span data-i18n="loc.or">or choose manually</span></div>
+
+      <label class="loc-field">
+        <span data-i18n="loc.country">Country</span>
+        <div class="combo">
+          <input class="combo__input" id="locCountryInput" type="text" autocomplete="off" spellcheck="false"
+                 role="combobox" aria-expanded="false" aria-controls="locCountryList" aria-autocomplete="list"
+                 placeholder="Search country…" data-i18n-ph="loc.countryPh" />
+          <ul class="combo__list hidden" id="locCountryList" role="listbox" aria-label="Countries"></ul>
+        </div>
+      </label>
+
+      <label class="loc-field">
+        <span data-i18n="loc.city">City</span>
+        <div class="combo">
+          <input class="combo__input" id="locCityInput" type="text" autocomplete="off" spellcheck="false"
+                 role="combobox" aria-expanded="false" aria-controls="locCityList" aria-autocomplete="list"
+                 placeholder="Select a country first" data-i18n-ph="loc.cityPh" disabled />
+          <ul class="combo__list hidden" id="locCityList" role="listbox" aria-label="Cities"></ul>
+        </div>
+      </label>
+
+      <p class="loc-status" id="locStatus" aria-live="polite"></p>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -419,6 +450,7 @@
   <script src="js/mosques.js"></script>
   <script src="js/adhkar.js"></script>
   <script src="js/quran.js"></script>
+  <script src="js/location.js"></script>
   <script src="js/cloud.js"></script>
   <script src="js/app.js"></script>
 </body>

@@ -32,7 +32,7 @@
 
 @media (max-width: 560px) {
   .prayer-grid, .info-grid, .track-grid, .stat-grid { grid-template-columns: 1fr 1fr; }
-  .loc-picker input { width: 104px; }
+  .loc-btn { max-width: 190px; }
   .hero__time { font-size: 2.5rem; }
   .topbar { gap: 10px; }
   .auth-email { display: none; }

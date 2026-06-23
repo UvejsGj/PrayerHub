@@ -68,20 +68,13 @@
 .topbar__right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
 .topbar .menu-toggle { display: none; }
 
-.loc-picker { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1 1 auto; min-width: 0; }
-.loc-picker__pin { font-size: 1.1rem; }
-.loc-picker__form { display: flex; gap: 6px; flex: 1 1 auto; min-width: 0; }
-.loc-picker input, .select {
+.select {
   background: var(--glass-soft); border: 1px solid var(--glass-brd);
   color: var(--text); padding: 9px 12px; border-radius: 11px;
   font: inherit; font-size: .85rem; outline: none; transition: border .2s;
+  cursor: pointer;
 }
-.loc-picker input { width: 130px; }
-#cityInput { flex: 1 1 auto; width: auto; min-width: 120px; }
-#countryInput { flex: 0 1 140px; min-width: 90px; }
-.loc-picker input:focus, .select:focus { border-color: var(--emerald); }
-.loc-picker input::placeholder { color: var(--text-dim); }
-.select { cursor: pointer; }
+.select:focus { border-color: var(--emerald); }
 .select option { background: var(--bg-1); color: var(--text); }
 
 .btn {
