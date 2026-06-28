@@ -108,9 +108,20 @@ PH.cloud = (function () {
     const area = $('authArea'); if (!area) return;
     if (session) {
       const email = session.user.email || 'account';
-      area.innerHTML = `<span class="sync-dot" id="syncDot" data-state="synced" title="Synced"></span>
-        <span class="auth-email" title="${email}">${email}</span>
-        <button class="btn btn--ghost" id="signOutBtn">${PH.t('auth.signOut')}</button>`;
+      const e = PH.esc(email);
+      const initial = PH.esc((email[0] || 'U').toUpperCase());
+      area.innerHTML = `<div class="acct">
+        <button class="acct__btn" id="acctBtn" aria-haspopup="menu" aria-expanded="false" title="${e}">
+          <span class="acct__avatar">${initial}</span>
+          <span class="sync-dot" id="syncDot" data-state="synced" title="Synced"></span>
+        </button>
+        <div class="acct__menu hidden" id="acctMenu" role="menu">
+          <div class="acct__id"><span class="acct__avatar acct__avatar--lg">${initial}</span><span class="acct__email" title="${e}">${e}</span></div>
+          <button class="btn btn--ghost acct__signout" id="signOutBtn" role="menuitem">${PH.t('auth.signOut')}</button>
+        </div>
+      </div>`;
+      const btn = $('acctBtn'), menu = $('acctMenu');
+      btn.addEventListener('click', ev => { ev.stopPropagation(); const closed = menu.classList.toggle('hidden'); btn.setAttribute('aria-expanded', String(!closed)); });
       $('signOutBtn').addEventListener('click', signOut);
     } else {
       area.innerHTML = `<button class="btn btn--ghost btn--ico" id="signInOpen"><span class="material-symbols-outlined">cloud</span> ${PH.t('auth.signIn')}</button>`;
@@ -124,6 +135,8 @@ PH.cloud = (function () {
   function bindModal() {
     $('authClose').addEventListener('click', closeModal);
     $('authModal').addEventListener('click', e => { if (e.target.id === 'authModal') closeModal(); });
+    // Close the account dropdown on any outside click (bound once).
+    document.addEventListener('click', () => { const m = $('acctMenu'); if (m) m.classList.add('hidden'); });
     const run = async (fn) => {
       const email = $('authEmail').value.trim(), pw = $('authPassword').value;
       if (!email || pw.length < 6) { $('authError').textContent = 'Enter an email and a password of at least 6 characters.'; return; }

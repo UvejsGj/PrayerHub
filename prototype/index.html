@@ -93,27 +93,30 @@
     <!-- ============ MAIN ============ -->
     <main class="main">
       <!-- Top bar -->
-      <header class="topbar glass">
-        <div class="topbar__left">
-          <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle navigation"><span class="material-symbols-outlined">menu</span></button>
-          <button class="loc-btn" id="locBtn" aria-haspopup="dialog" title="Change location">
-            <span class="loc-btn__pin material-symbols-outlined" aria-hidden="true">location_on</span>
-            <span class="loc-btn__label" id="locBtnLabel">Mecca, Saudi Arabia</span>
-            <span class="loc-btn__chev material-symbols-outlined" aria-hidden="true">expand_more</span>
-          </button>
-        </div>
-        <div class="topbar__right">
-          <select id="methodSelect" class="select" aria-label="Calculation method">
-            <option value="3">Muslim World League</option>
-            <option value="4">Umm Al-Qura (Makkah)</option>
-            <option value="2">ISNA (North America)</option>
-            <option value="5">Egyptian General Authority</option>
-            <option value="1">Karachi</option>
-            <option value="99">Custom (angles)</option>
-          </select>
-          <button class="btn btn--ghost btn--ico" id="langToggle" title="Language / Gjuha"><span class="material-symbols-outlined">translate</span> <span id="langLabel">EN</span></button>
-          <div id="authArea" class="auth-area"></div>
+      <header class="topbar">
+        <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle navigation"><span class="material-symbols-outlined">menu</span></button>
+        <button class="loc-btn" id="locBtn" aria-haspopup="dialog" title="Change location">
+          <span class="loc-btn__pin material-symbols-outlined" aria-hidden="true">location_on</span>
+          <span class="loc-btn__label" id="locBtnLabel">Mecca, Saudi Arabia</span>
+          <span class="loc-btn__chev material-symbols-outlined" aria-hidden="true">expand_more</span>
+        </button>
+
+        <div class="topbar__tools">
+          <label class="method-field" title="Calculation method">
+            <span class="method-field__ico material-symbols-outlined" aria-hidden="true">tune</span>
+            <select id="methodSelect" class="method-field__select" aria-label="Calculation method">
+              <option value="3">Muslim World League</option>
+              <option value="4">Umm Al-Qura (Makkah)</option>
+              <option value="2">ISNA (North America)</option>
+              <option value="5">Egyptian General Authority</option>
+              <option value="1">Karachi</option>
+              <option value="99">Custom (angles)</option>
+            </select>
+          </label>
+          <span class="topbar__sep" aria-hidden="true"></span>
+          <button class="icon-btn icon-btn--text" id="langToggle" title="Language / Gjuha"><span class="material-symbols-outlined">translate</span><span id="langLabel">EN</span></button>
           <button class="icon-btn" id="themeToggle" aria-label="Toggle light/dark theme"><span class="material-symbols-outlined">dark_mode</span></button>
+          <div id="authArea" class="auth-area"></div>
         </div>
       </header>
 
@@ -346,13 +349,10 @@
           <div class="quran-toolbar">
             <select id="quranSurah" class="select" aria-label="Surah"></select>
             <select id="quranEdition" class="select" aria-label="Translation">
-              <option value="sq.ahmeti">Ahmeti (SQ)</option>
-              <option value="sq.nahi">Nahi (SQ)</option>
-              <option value="en.asad">Asad (EN)</option>
-              <option value="en.sahih">Saheeh Intl (EN)</option>
-              <option value="en.pickthall">Pickthall (EN)</option>
-              <option value="tr.diyanet">Diyanet (TR)</option>
-              <option value="fr.hamidullah">Hamidullah (FR)</option>
+              <option value="en.sahih">English — Saheeh International</option>
+              <option value="en.asad">English — Muhammad Asad</option>
+              <option value="sq.ahmeti">Shqip — Sherif Ahmeti</option>
+              <option value="sq.nahi">Shqip — Hasan Nahi</option>
             </select>
           </div>
         </div>

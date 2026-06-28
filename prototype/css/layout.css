@@ -60,13 +60,29 @@
 .main { min-width: 0; display: flex; flex-direction: column; gap: 20px; }
 
 .topbar {
-  display: flex; align-items: center;
-  gap: 16px; padding: 4px 2px; flex-wrap: wrap;
-  background: transparent; border: 0; box-shadow: none;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--glass-soft); border: 1px solid var(--glass-brd); border-radius: 16px;
 }
-.topbar__left { display: flex; align-items: center; gap: 12px; flex: 1 1 420px; min-width: 0; }
-.topbar__right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
 .topbar .menu-toggle { display: none; }
+
+/* right-hand cohesive control cluster */
+.topbar__tools { display: flex; align-items: center; gap: 10px; margin-left: auto; flex-wrap: wrap; }
+.topbar__sep { width: 1px; height: 24px; background: var(--glass-brd); }
+
+/* calculation method as an icon + select unit */
+.method-field { position: relative; display: inline-flex; align-items: center; }
+.method-field__ico { position: absolute; left: 11px; font-size: 1.05rem; color: var(--text-dim); pointer-events: none; }
+.method-field__select {
+  background: var(--card-hi); border: 1px solid var(--glass-brd); color: var(--text);
+  padding: 9px 12px 9px 36px; border-radius: 11px; font: inherit; font-size: .85rem;
+  cursor: pointer; outline: none; transition: border .2s; max-width: 200px;
+}
+.method-field__select:focus { border-color: var(--emerald); }
+.method-field__select option { background: var(--bg-1); color: var(--text); }
+
+/* icon button that also carries a short label (language toggle) */
+.icon-btn--text { width: auto; padding: 0 12px; gap: 6px; font-size: .82rem; font-weight: 600; }
 
 .select {
   background: var(--glass-soft); border: 1px solid var(--glass-brd);
