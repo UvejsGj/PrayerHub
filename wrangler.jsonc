@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "salahos",
+  "compatibility_date": "2026-06-28",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "prototype"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
