@@ -108,6 +108,12 @@ PH.cloud = (function () {
     const { error } = await client.auth.updateUser({ password: newPw });
     return error ? error.message : null;
   }
+  // Social sign-in: a full-page redirect to the provider, then back to this app
+  // (the SIGNED_IN auth event below picks up the session and syncs).
+  async function oauth(provider) {
+    const { error } = await client.auth.signInWithOAuth({ provider, options: { redirectTo: location.origin + location.pathname } });
+    if (error) PH.ui.toast(error.message);
+  }
 
   /* ---------- UI ---------- */
   function setSync(state) {
@@ -141,7 +147,8 @@ PH.cloud = (function () {
     }
   }
 
-  let recovery = false; // true while the user is setting a new password via a reset link
+  let recovery = false;        // true while the user is setting a new password via a reset link
+  let oauthAvailable = false;  // whether any social-login buttons are shown
 
   // Toggle the modal between normal sign-in and "set a new password" mode.
   function setMode(mode) {
@@ -150,6 +157,8 @@ PH.cloud = (function () {
     $('authSignUp').style.display = recovery ? 'none' : '';
     $('authForgot').style.display = recovery ? 'none' : '';
     $('authFineprint').style.display = recovery ? 'none' : '';
+    $('authOauth').style.display = (recovery || !oauthAvailable) ? 'none' : '';
+    $('authDivider').style.display = (recovery || !oauthAvailable) ? 'none' : '';
     $('authTitle').textContent = recovery ? PH.t('auth.recoverTitle') : PH.t('auth.modalTitle');
     $('authSub').textContent = recovery ? PH.t('auth.recoverSub') : PH.t('auth.modalSub');
     $('authSignIn').textContent = recovery ? PH.t('auth.updatePw') : PH.t('auth.signIn');
@@ -182,6 +191,13 @@ PH.cloud = (function () {
     $('authModal').addEventListener('click', e => { if (e.target.id === 'authModal') closeModal(); });
     // Close the account dropdown on any outside click (bound once).
     document.addEventListener('click', () => { const m = $('acctMenu'); if (m) m.classList.add('hidden'); });
+    // Social sign-in buttons (shown per PH.config.oauthProviders).
+    const providers = PH.config.oauthProviders || [];
+    oauthAvailable = providers.length > 0;
+    if (!providers.includes('google')) $('authGoogle').style.display = 'none';
+    if (!providers.includes('apple')) $('authApple').style.display = 'none';
+    $('authGoogle').addEventListener('click', () => oauth('google'));
+    $('authApple').addEventListener('click', () => oauth('apple'));
     const run = async (fn) => {
       const email = $('authEmail').value.trim(), pw = $('authPassword').value;
       if (!email || pw.length < 6) { $('authError').textContent = PH.t('auth.needBoth'); return; }

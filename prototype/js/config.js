@@ -95,6 +95,13 @@ PH.config.mapboxToken = '';
    Left empty, nothing is sent anywhere off-device. */
 PH.config.sentryDsn = '';
 
+/* ---- Social sign-in (OAuth) ----
+   Which provider buttons to show in the sign-in modal. A button only works
+   once that provider is enabled + configured in the Supabase dashboard
+   (Authentication → Providers). Drop one to hide its button, e.g. ['google'].
+   The OAuth redirect uses the page's own origin, so no extra client config. */
+PH.config.oauthProviders = ['google']; // add 'apple' once it's configured in Supabase
+
 /* Returns a Leaflet tile layer: Mapbox (theme-aware) when a token is set,
    otherwise OpenStreetMap. Pass the global Leaflet `L`. */
 PH.mapTiles = function (L) {

@@ -73,6 +73,7 @@ PH.i18n = (function () {
       'auth.updatePw': 'Update password', 'auth.newPw': 'New password (min 6 characters)',
       'auth.pwShort': 'Password must be at least 6 characters.', 'auth.pwUpdated': 'Password updated — you are signed in.',
       'auth.done': 'Done', 'auth.resetSentTitle': 'Check your email',
+      'auth.google': 'Continue with Google', 'auth.apple': 'Continue with Apple', 'auth.or': 'or',
       'auth.pwUpdatedTitle': 'Password updated', 'auth.pwUpdatedSub': "You're signed in with your new password.",
     },
     sq: {
@@ -143,6 +144,7 @@ PH.i18n = (function () {
       'auth.updatePw': 'Përditëso fjalëkalimin', 'auth.newPw': 'Fjalëkalimi i ri (min 6 shenja)',
       'auth.pwShort': 'Fjalëkalimi duhet të ketë të paktën 6 shenja.', 'auth.pwUpdated': 'Fjalëkalimi u përditësua — jeni i kyçur.',
       'auth.done': 'U krye', 'auth.resetSentTitle': 'Kontrollo email-in',
+      'auth.google': 'Vazhdo me Google', 'auth.apple': 'Vazhdo me Apple', 'auth.or': 'ose',
       'auth.pwUpdatedTitle': 'Fjalëkalimi u përditësua', 'auth.pwUpdatedSub': 'Jeni i kyçur me fjalëkalimin e ri.',
     },
   };
