@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Privacy Policy for Salah OS — what data we collect, how it is stored, and your rights." />
+  <meta name="theme-color" content="#0a0e16" />
+  <title>Privacy Policy — Salah OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <style>
+    .legal { max-width: 760px; margin: 0 auto; padding: 40px 22px 90px; }
+    .legal__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 30px; }
+    .legal__back { color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: .9rem; }
+    .legal__back:hover { color: var(--text); }
+    .legal__lang { cursor: pointer; user-select: none; font-weight: 600; font-size: .82rem; color: var(--emerald-soft);
+      border: 1px solid var(--glass-brd); border-radius: 20px; padding: 7px 15px; background: var(--glass-soft); }
+    .legal__lang:hover { border-color: var(--emerald); }
+    .legal h1 { font-size: clamp(1.9rem, 4vw, 2.5rem); letter-spacing: -.02em; margin-bottom: 6px; }
+    .legal__updated { color: var(--text-faint); font-size: .85rem; margin-bottom: 30px; }
+    .legal h2 { font-size: 1.18rem; margin: 30px 0 8px; color: var(--text); }
+    .legal p, .legal li { color: var(--text-dim); line-height: 1.75; font-size: .95rem; }
+    .legal p { margin: 8px 0; }
+    .legal ul { margin: 8px 0 8px 22px; }
+    .legal li { margin: 4px 0; }
+    .legal strong { color: var(--text); font-weight: 600; }
+    .legal a { color: var(--emerald-soft); }
+    /* CSS-only EN/SQ toggle */
+    .lang-sq { display: none; }
+    #langToggle:checked ~ .legal .lang-en { display: none; }
+    #langToggle:checked ~ .legal .lang-sq { display: revert; }
+  </style>
+</head>
+<body>
+  <input type="checkbox" id="langToggle" hidden />
+  <main class="legal">
+    <div class="legal__top">
+      <a class="legal__back" href="./">&larr; <span class="lang-en">Back to app</span><span class="lang-sq">Kthehu te aplikacioni</span></a>
+      <label for="langToggle" class="legal__lang"><span class="lang-en">Shqip</span><span class="lang-sq">English</span></label>
+    </div>
+
+    <!-- ============ ENGLISH ============ -->
+    <article class="lang-en">
+      <h1>Privacy Policy</h1>
+      <p class="legal__updated">Last updated: 28 June 2026</p>
+
+      <p>Salah OS (“the app”, “we”, “us”) is an Islamic prayer &amp; worship dashboard operated by <strong>Uvejs Gjelaj</strong>, an individual based in Kosovo. This policy explains what data the app handles, where it goes, and the choices you have. Questions: <a href="mailto:gjelajuvejs@gmail.com">gjelajuvejs@gmail.com</a>.</p>
+
+      <h2>The short version</h2>
+      <p>The app works fully on your device without an account. We show <strong>no ads</strong>, use <strong>no advertising or analytics trackers</strong>, and we never sell your data. An account is optional and only exists to sync your data across your devices.</p>
+
+      <h2>What we collect</h2>
+      <ul>
+        <li><strong>Account details</strong> (only if you sign in): your email address. If you use “Sign in with Google”, Google shares your email and basic profile with us; we do not receive your Google password.</li>
+        <li><strong>Worship data</strong>: prayer logs, streaks, Quran reading progress and bookmarks, Ramadan trackers, adhkar counts, and favorite mosques.</li>
+        <li><strong>Location</strong>: the city/country you choose, or — only if you tap “Use my current location” and grant permission — your device’s coordinates. Used to calculate prayer times, the Qibla direction, and nearby mosques.</li>
+        <li><strong>Preferences</strong>: language, theme, and calculation method.</li>
+        <li><strong>Error logs</strong>: if something breaks, a short technical record is kept <strong>locally on your device</strong> to help debugging. It is not sent anywhere by default.</li>
+      </ul>
+
+      <h2>Where your data is stored</h2>
+      <p>By default, everything is stored in your browser (local storage) and never leaves your device. If you create an account or sign in, your data is also synced to our database (hosted by <strong>Supabase</strong>, in the EU) and tied to your account. Row-level security ensures only you can read or write your own data.</p>
+
+      <h2>Services we rely on</h2>
+      <p>To provide its features the app uses these third parties. We do not share your account identity with the data APIs — they only receive what is needed to answer a request (e.g. coordinates to return prayer times):</p>
+      <ul>
+        <li><strong>Supabase</strong> — account authentication and encrypted database sync.</li>
+        <li><strong>Cloudflare</strong> — website hosting and delivery.</li>
+        <li><strong>Google</strong> — only if you choose “Sign in with Google”.</li>
+        <li><strong>Data providers</strong> you query: AlAdhan (prayer times), Quran.com and AlQuran.cloud (Quran text/audio), OpenStreetMap / Nominatim &amp; Overpass (maps and mosque search), and countriesnow.space (country/city lists).</li>
+      </ul>
+
+      <h2>Cookies &amp; local storage</h2>
+      <p>We do not use advertising cookies. We use your browser’s local storage to save your data and preferences, and — when signed in — a secure session token to keep you logged in.</p>
+
+      <h2>Your rights &amp; choices</h2>
+      <ul>
+        <li><strong>Access &amp; export</strong>: your tracking history can be exported as CSV from the app.</li>
+        <li><strong>Delete local data</strong>: use “Reset my data” in the app, or clear your browser storage.</li>
+        <li><strong>Delete your account &amp; synced data</strong>: email us at <a href="mailto:gjelajuvejs@gmail.com">gjelajuvejs@gmail.com</a> and we will remove it.</li>
+        <li>Depending on your location, you may have rights to access, correct, delete, or restrict processing of your data under laws such as the GDPR and Kosovo’s data-protection law.</li>
+      </ul>
+
+      <h2>Data retention</h2>
+      <p>Local data stays until you clear it. Synced account data is kept until you delete it or ask us to delete it.</p>
+
+      <h2>Children</h2>
+      <p>The app is not directed at children under 13, and we do not knowingly collect their data.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>We may update this policy as the app evolves. Material changes will be reflected here with a new “last updated” date.</p>
+
+      <h2>Contact</h2>
+      <p>For any privacy question or request: <a href="mailto:gjelajuvejs@gmail.com">gjelajuvejs@gmail.com</a>.</p>
+    </article>
+
+    <!-- ============ SHQIP ============ -->
+    <article class="lang-sq">
+      <h1>Politika e Privatësisë</h1>
+      <p class="legal__updated">Përditësuar së fundi: 28 qershor 2026</p>
+
+      <p>Salah OS (“aplikacioni”, “ne”) është një panel për namazin dhe ibadetin islam, i menaxhuar nga <strong>Uvejs Gjelaj</strong>, person fizik me bazë në Kosovë. Kjo politikë shpjegon çfarë të dhënash përpunon aplikacioni, ku shkojnë ato dhe çfarë zgjedhjesh keni. Pyetje: <a href="mailto:gjelajuvejs@gmail.com">gjelajuvejs@gmail.com</a>.</p>
+
+      <h2>Shkurt</h2>
+      <p>Aplikacioni punon plotësisht në pajisjen tuaj pa llogari. Nuk shfaqim <strong>reklama</strong>, nuk përdorim <strong>gjurmues reklamash apo analitike</strong>, dhe nuk i shesim kurrë të dhënat tuaja. Llogaria është opsionale dhe shërben vetëm për të sinkronizuar të dhënat mes pajisjeve tuaja.</p>
+
+      <h2>Çfarë mbledhim</h2>
+      <ul>
+        <li><strong>Të dhënat e llogarisë</strong> (vetëm nëse kyçeni): adresën tuaj të email-it. Nëse përdorni “Vazhdo me Google”, Google ndan me ne email-in dhe profilin bazë; ne nuk e marrim fjalëkalimin tuaj të Google.</li>
+        <li><strong>Të dhënat e ibadetit</strong>: regjistrimet e namazit, seritë, progresin e leximit të Kuranit dhe faqeshënuesit, gjurmuesit e Ramazanit, numërimet e dhikrit dhe xhamitë e preferuara.</li>
+        <li><strong>Vendndodhja</strong>: qyteti/shteti që zgjidhni, ose — vetëm nëse prekni “Përdor vendndodhjen time” dhe jepni leje — koordinatat e pajisjes tuaj. Përdoret për të llogaritur kohët e namazit, drejtimin e Kiblës dhe xhamitë afër.</li>
+        <li><strong>Preferencat</strong>: gjuha, tema dhe metoda e llogaritjes.</li>
+        <li><strong>Regjistrimet e gabimeve</strong>: nëse diçka prishet, ruhet një shënim i shkurtër teknik <strong>lokalisht në pajisjen tuaj</strong> për të ndihmuar zgjidhjen. Si parazgjedhje nuk dërgohet askund.</li>
+      </ul>
+
+      <h2>Ku ruhen të dhënat tuaja</h2>
+      <p>Si parazgjedhje, gjithçka ruhet në shfletuesin tuaj (local storage) dhe nuk largohet nga pajisja. Nëse krijoni një llogari ose kyçeni, të dhënat sinkronizohen edhe në bazën tonë të të dhënave (mbajtur nga <strong>Supabase</strong>, në BE) dhe lidhen me llogarinë tuaj. Siguria në nivel rreshti (RLS) garanton që vetëm ju mund t’i lexoni ose shkruani të dhënat tuaja.</p>
+
+      <h2>Shërbimet që përdorim</h2>
+      <p>Për të ofruar veçoritë, aplikacioni përdor këto palë të treta. Ne nuk e ndajmë identitetin e llogarisë suaj me API-të e të dhënave — ato marrin vetëm çfarë nevojitet për një kërkesë (p.sh. koordinatat për të kthyer kohët e namazit):</p>
+      <ul>
+        <li><strong>Supabase</strong> — vërtetimi i llogarisë dhe sinkronizimi i bazës së të dhënave.</li>
+        <li><strong>Cloudflare</strong> — strehimi dhe shpërndarja e faqes.</li>
+        <li><strong>Google</strong> — vetëm nëse zgjidhni “Vazhdo me Google”.</li>
+        <li><strong>Ofruesit e të dhënave</strong> që pyesni: AlAdhan (kohët e namazit), Quran.com dhe AlQuran.cloud (teksti/audio i Kuranit), OpenStreetMap / Nominatim &amp; Overpass (hartat dhe kërkimi i xhamive) dhe countriesnow.space (listat e shteteve/qyteteve).</li>
+      </ul>
+
+      <h2>Cookies &amp; local storage</h2>
+      <p>Nuk përdorim cookies reklamash. Përdorim local storage të shfletuesit për të ruajtur të dhënat dhe preferencat tuaja, dhe — kur jeni i kyçur — një token sesioni të sigurt për t’ju mbajtur të kyçur.</p>
+
+      <h2>Të drejtat &amp; zgjedhjet tuaja</h2>
+      <ul>
+        <li><strong>Qasja &amp; eksporti</strong>: historiku juaj i gjurmimit mund të eksportohet si CSV nga aplikacioni.</li>
+        <li><strong>Fshirja e të dhënave lokale</strong>: përdorni “Rivendos të dhënat” në aplikacion, ose pastroni ruajtjen e shfletuesit.</li>
+        <li><strong>Fshirja e llogarisë &amp; të dhënave të sinkronizuara</strong>: na shkruani te <a href="mailto:gjelajuvejs@gmail.com">gjelajuvejs@gmail.com</a> dhe do t’i heqim.</li>
+        <li>Sipas vendndodhjes suaj, mund të keni të drejta për qasje, korrigjim, fshirje ose kufizim të përpunimit sipas ligjeve si GDPR dhe ligji për mbrojtjen e të dhënave i Kosovës.</li>
+      </ul>
+
+      <h2>Ruajtja e të dhënave</h2>
+      <p>Të dhënat lokale qëndrojnë derisa t’i pastroni. Të dhënat e llogarisë së sinkronizuar mbahen derisa t’i fshini ose të kërkoni fshirjen.</p>
+
+      <h2>Fëmijët</h2>
+      <p>Aplikacioni nuk u drejtohet fëmijëve nën 13 vjeç dhe ne nuk mbledhim me vetëdije të dhënat e tyre.</p>
+
+      <h2>Ndryshimet e kësaj politike</h2>
+      <p>Mund ta përditësojmë këtë politikë me zhvillimin e aplikacionit. Ndryshimet thelbësore do të pasqyrohen këtu me një datë të re “përditësuar së fundi”.</p>
+
+      <h2>Kontakti</h2>
+      <p>Për çdo pyetje ose kërkesë mbi privatësinë: <a href="mailto:gjelajuvejs@gmail.com">gjelajuvejs@gmail.com</a>.</p>
+    </article>
+  </main>
+  <script src="js/legal.js"></script>
+</body>
+</html>
