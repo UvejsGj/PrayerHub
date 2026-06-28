@@ -382,16 +382,27 @@
   <div class="auth-modal hidden" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in">
     <div class="auth-modal__box glass">
       <button class="auth-modal__close" id="authClose" aria-label="Close">×</button>
-      <h3><span class="material-symbols-outlined" style="vertical-align:-4px">cloud_sync</span> <span data-i18n="auth.modalTitle">Sync your worship data</span></h3>
-      <p class="muted" data-i18n="auth.modalSub">Sign in so your prayer logs, streaks, trackers and favorites follow you across devices.</p>
-      <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" />
-      <input id="authPassword" type="password" autocomplete="current-password" placeholder="Password (min 6 characters)" data-i18n-ph="auth.password" />
-      <p class="auth-error" id="authError"></p>
-      <div class="auth-actions">
-        <button class="btn" id="authSignIn" data-i18n="auth.signIn">Sign in</button>
-        <button class="btn btn--ghost" id="authSignUp" data-i18n="auth.create">Create account</button>
+
+      <div id="authForm">
+        <h3><span class="material-symbols-outlined" style="vertical-align:-4px">cloud_sync</span> <span id="authTitle" data-i18n="auth.modalTitle">Sync your worship data</span></h3>
+        <p class="muted" id="authSub" data-i18n="auth.modalSub">Sign in so your prayer logs, streaks, trackers and favorites follow you across devices.</p>
+        <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+        <input id="authPassword" type="password" autocomplete="current-password" placeholder="Password (min 6 characters)" data-i18n-ph="auth.password" />
+        <p class="auth-error" id="authError"></p>
+        <div class="auth-actions">
+          <button class="btn" id="authSignIn" data-i18n="auth.signIn">Sign in</button>
+          <button class="btn btn--ghost" id="authSignUp" data-i18n="auth.create">Create account</button>
+        </div>
+        <button type="button" class="auth-forgot" id="authForgot" data-i18n="auth.forgot">Forgot password?</button>
+        <p class="muted auth-fineprint" id="authFineprint">New here? Enter an email + password and tap <b>Create account</b>.</p>
       </div>
-      <p class="muted auth-fineprint">New here? Enter an email + password and tap <b>Create account</b>.</p>
+
+      <div class="auth-confirm hidden" id="authConfirm">
+        <span class="auth-confirm__icon material-symbols-outlined" aria-hidden="true">check_circle</span>
+        <h3 id="authConfirmTitle"></h3>
+        <p class="muted auth-confirm__sub" id="authConfirmSub"></p>
+        <button class="btn" id="authConfirmDone" data-i18n="auth.done">Done</button>
+      </div>
     </div>
   </div>
 

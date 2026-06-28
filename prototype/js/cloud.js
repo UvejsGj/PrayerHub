@@ -96,6 +96,18 @@ PH.cloud = (function () {
     return null; // signed in immediately (email confirmation disabled)
   }
   async function signOut() { await client.auth.signOut(); }
+  // Email a password-reset link. The link returns to this app and fires a
+  // PASSWORD_RECOVERY auth event (handled in init), which opens the modal in
+  // "set a new password" mode.
+  async function resetPassword(email) {
+    const redirectTo = location.origin + location.pathname;
+    const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
+    return error ? error.message : null;
+  }
+  async function updatePassword(newPw) {
+    const { error } = await client.auth.updateUser({ password: newPw });
+    return error ? error.message : null;
+  }
 
   /* ---------- UI ---------- */
   function setSync(state) {
@@ -129,7 +141,40 @@ PH.cloud = (function () {
     }
   }
 
-  function openModal() { $('authModal').classList.remove('hidden'); $('authError').textContent = ''; $('authEmail').focus(); }
+  let recovery = false; // true while the user is setting a new password via a reset link
+
+  // Toggle the modal between normal sign-in and "set a new password" mode.
+  function setMode(mode) {
+    recovery = (mode === 'recovery');
+    $('authEmail').style.display = recovery ? 'none' : '';
+    $('authSignUp').style.display = recovery ? 'none' : '';
+    $('authForgot').style.display = recovery ? 'none' : '';
+    $('authFineprint').style.display = recovery ? 'none' : '';
+    $('authTitle').textContent = recovery ? PH.t('auth.recoverTitle') : PH.t('auth.modalTitle');
+    $('authSub').textContent = recovery ? PH.t('auth.recoverSub') : PH.t('auth.modalSub');
+    $('authSignIn').textContent = recovery ? PH.t('auth.updatePw') : PH.t('auth.signIn');
+    $('authPassword').setAttribute('placeholder', recovery ? PH.t('auth.newPw') : PH.t('auth.password'));
+    $('authPassword').value = '';
+    $('authError').textContent = '';
+  }
+
+  // Swap the modal body to a success panel (used for both "reset email sent"
+  // and "password updated"), or back to the form.
+  function showConfirm(title, sub) {
+    $('authConfirmTitle').textContent = title;
+    $('authConfirmSub').textContent = sub;
+    $('authForm').classList.add('hidden');
+    $('authConfirm').classList.remove('hidden');
+    $('authConfirmDone').focus();
+  }
+  function resetModalView() { $('authConfirm').classList.add('hidden'); $('authForm').classList.remove('hidden'); }
+
+  function openModal(mode) {
+    resetModalView();
+    setMode(mode === 'recovery' ? 'recovery' : 'default');
+    $('authModal').classList.remove('hidden');
+    (recovery ? $('authPassword') : $('authEmail')).focus();
+  }
   function closeModal() { $('authModal').classList.add('hidden'); }
 
   function bindModal() {
@@ -139,15 +184,34 @@ PH.cloud = (function () {
     document.addEventListener('click', () => { const m = $('acctMenu'); if (m) m.classList.add('hidden'); });
     const run = async (fn) => {
       const email = $('authEmail').value.trim(), pw = $('authPassword').value;
-      if (!email || pw.length < 6) { $('authError').textContent = 'Enter an email and a password of at least 6 characters.'; return; }
-      $('authError').textContent = 'Working…';
+      if (!email || pw.length < 6) { $('authError').textContent = PH.t('auth.needBoth'); return; }
+      $('authError').textContent = PH.t('auth.working');
       const msg = await fn(email, pw);
       if (msg) { $('authError').textContent = msg; }
-      else { closeModal(); PH.ui.toast('Signed in — your data is now syncing.'); }
+      else { closeModal(); PH.ui.toast(PH.t('auth.signedIn')); }
     };
-    $('authSignIn').addEventListener('click', () => run(signIn));
+    // Set a new password (recovery flow).
+    const runUpdate = async () => {
+      const pw = $('authPassword').value;
+      if (pw.length < 6) { $('authError').textContent = PH.t('auth.pwShort'); return; }
+      $('authError').textContent = PH.t('auth.working');
+      const msg = await updatePassword(pw);
+      if (msg) { $('authError').textContent = msg; }
+      else { setMode('default'); showConfirm(PH.t('auth.pwUpdatedTitle'), PH.t('auth.pwUpdatedSub')); }
+    };
+    // Send a reset email.
+    $('authForgot').addEventListener('click', async () => {
+      const email = $('authEmail').value.trim();
+      if (!email) { $('authError').textContent = PH.t('auth.needEmail'); $('authEmail').focus(); return; }
+      $('authError').textContent = PH.t('auth.sending');
+      const msg = await resetPassword(email);
+      if (msg) { $('authError').textContent = msg; }
+      else { showConfirm(PH.t('auth.resetSentTitle'), PH.t('auth.resetSent')); }
+    });
+    $('authConfirmDone').addEventListener('click', () => { resetModalView(); closeModal(); });
+    $('authSignIn').addEventListener('click', () => recovery ? runUpdate() : run(signIn));
     $('authSignUp').addEventListener('click', () => run(signUp));
-    $('authPassword').addEventListener('keydown', e => { if (e.key === 'Enter') run(signIn); });
+    $('authPassword').addEventListener('keydown', e => { if (e.key === 'Enter') (recovery ? runUpdate() : run(signIn)); });
   }
 
   /* ---------- init ---------- */
@@ -163,6 +227,8 @@ PH.cloud = (function () {
     client.auth.onAuthStateChange((event, sess) => {
       session = sess;
       renderAuthArea();
+      // Arrived back via a password-reset link → let the user set a new password.
+      if (event === 'PASSWORD_RECOVERY') { openModal('recovery'); return; }
       if (session && !pulled) { pulled = true; pull(); }
       if (!session) pulled = false;
     });

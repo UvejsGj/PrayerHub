@@ -81,8 +81,10 @@
 .method-field__select:focus { border-color: var(--emerald); }
 .method-field__select option { background: var(--bg-1); color: var(--text); }
 
-/* icon button that also carries a short label (language toggle) */
-.icon-btn--text { width: auto; padding: 0 12px; gap: 6px; font-size: .82rem; font-weight: 600; }
+/* icon button that also carries a short label (language toggle).
+   Compound selector so it overrides .icon-btn's grid/width regardless of order. */
+.icon-btn.icon-btn--text { width: auto; height: 40px; padding: 0 12px; gap: 6px; grid-auto-flow: column; }
+.icon-btn--text #langLabel { font-size: .8rem; font-weight: 700; }
 
 .select {
   background: var(--glass-soft); border: 1px solid var(--glass-brd);
